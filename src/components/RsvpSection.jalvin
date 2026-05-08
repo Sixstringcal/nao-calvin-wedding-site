@@ -1,0 +1,94 @@
+import @jalvin/runtime.*
+import @jalvin/ui.Card
+import @jalvin/ui.Column
+import @jalvin/ui.Text
+import @jalvin/ui.Input
+import @jalvin/ui.TextArea
+import @jalvin/ui.Checkbox
+import @jalvin/ui.Button
+import @jalvin/ui.Modifier
+import @jalvin/ui.TextStyle
+import src.viewmodels.WeddingViewModel.WeddingViewModel
+
+component fun RsvpSection(vm: WeddingViewModel) {
+    val fullName = collectAsState(vm.fullName)
+    val email = collectAsState(vm.email)
+    val guestCount = collectAsState(vm.guestCount)
+    val attending = collectAsState(vm.attending)
+    val plusOne = collectAsState(vm.plusOne)
+    val dietaryNotes = collectAsState(vm.dietaryNotes)
+    val note = collectAsState(vm.note)
+    val isSubmitting = collectAsState(vm.isSubmitting)
+    val statusText = collectAsState(vm.statusText)
+    val statusColor = collectAsState(vm.statusColor)
+
+    return Card(modifier = Modifier.fillMaxWidth(), elevation = 2) {
+        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 14) {
+            Text(text = "RSVP", style = TextStyle.headlineMedium)
+            Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", style = TextStyle.bodyLarge)
+
+            Input(
+                value = fullName.value,
+                onValueChange = { v -> vm.updateFullName(v) },
+                label = "Full name",
+                placeholder = "Lorem ipsum",
+            )
+
+            Input(
+                value = email.value,
+                onValueChange = { v -> vm.updateEmail(v) },
+                label = "Email",
+                placeholder = "Lorem ipsum",
+                type = "email",
+            )
+
+            Input(
+                value = guestCount.value,
+                onValueChange = { v -> vm.updateGuestCount(v) },
+                label = "Total guests",
+                placeholder = "Lorem ipsum",
+            )
+
+            Checkbox(
+                checked = attending.value,
+                onCheckedChange = { v -> vm.updateAttending(v) },
+                label = "I / we can attend",
+            )
+
+            Checkbox(
+                checked = plusOne.value,
+                onCheckedChange = { v -> vm.updatePlusOne(v) },
+                label = "I need a plus one",
+            )
+
+            TextArea(
+                value = dietaryNotes.value,
+                onValueChange = { v -> vm.updateDietaryNotes(v) },
+                label = "Dietary needs",
+                placeholder = "Lorem ipsum dolor sit amet",
+                rows = 3,
+            )
+
+            TextArea(
+                value = note.value,
+                onValueChange = { v -> vm.updateNote(v) },
+                label = "Message for the couple",
+                placeholder = "Lorem ipsum dolor sit amet",
+                rows = 4,
+            )
+
+            Button(
+                text = if (isSubmitting.value) "Sending..." else "Submit RSVP",
+                enabled = !isSubmitting.value,
+                variant = "filled",
+                onClick = {
+                    launch {
+                        vm.submit()
+                    }
+                },
+            )
+
+            Text(text = statusText.value, style = TextStyle.bodyMedium, color = statusColor.value)
+        }
+    }
+}

@@ -1,0 +1,12 @@
+# Jalvin project configuration
+name = wedding
+version = 1.0.0
+
+rootDir = src
+outDir = docs
+
+# Enable JSX / React
+jsx = true
+
+# Enable TypeScript type annotations in emitted code
+emitTypes = false

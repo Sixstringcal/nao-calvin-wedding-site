@@ -1,0 +1,80 @@
+import @jalvin/runtime.*
+import @jalvin/ui.Color
+import src.models.WeddingData.RsvpPayload
+import src.services.RsvpService.isEmailLikelyValid
+import src.services.RsvpService.submitRsvp
+
+class WeddingViewModel : ViewModel() {
+    val fullName = MutableStateFlow("")
+    val email = MutableStateFlow("")
+    val guestCount = MutableStateFlow("1")
+    val attending = MutableStateFlow(true)
+    val plusOne = MutableStateFlow(false)
+    val dietaryNotes = MutableStateFlow("")
+    val note = MutableStateFlow("")
+
+    val isSubmitting = MutableStateFlow(false)
+    val statusText = MutableStateFlow("Please RSVP by August 15, 2026")
+    val statusColor = MutableStateFlow(Color.OnSurfaceVariant)
+
+    fun updateFullName(value: String) { fullName.value = value }
+    fun updateEmail(value: String) { email.value = value }
+    fun updateGuestCount(value: String) { guestCount.value = value }
+    fun updateAttending(value: Boolean) { attending.value = value }
+    fun updatePlusOne(value: Boolean) { plusOne.value = value }
+    fun updateDietaryNotes(value: String) { dietaryNotes.value = value }
+    fun updateNote(value: String) { note.value = value }
+
+    suspend fun submit() {
+        if (isSubmitting.value) {
+            return
+        }
+
+        val parsedGuestCount = guestCount.value.toIntOrNull() ?: 1
+
+        if (fullName.value.trim().length < 2) {
+            statusText.value = "Please enter your full name."
+            statusColor.value = Color.Error
+            return
+        }
+
+        if (!isEmailLikelyValid(email.value)) {
+            statusText.value = "Please enter a valid email address."
+            statusColor.value = Color.Error
+            return
+        }
+
+        if (parsedGuestCount < 1) {
+            statusText.value = "Guest count must be at least 1."
+            statusColor.value = Color.Error
+            return
+        }
+
+        isSubmitting.value = true
+        statusText.value = "Submitting your RSVP..."
+        statusColor.value = Color.OnSurfaceVariant
+
+        try {
+            submitRsvp(
+                RsvpPayload(
+                    fullName = fullName.value,
+                    email = email.value,
+                    guestCount = parsedGuestCount,
+                    attending = attending.value,
+                    needsPlusOne = plusOne.value,
+                    dietaryNotes = dietaryNotes.value,
+                    message = note.value,
+                    submittedAt = Date().toISOString()
+                )
+            )
+
+            isSubmitting.value = false
+            statusText.value = "Thank you. Your RSVP was submitted."
+            statusColor.value = Color.Success
+        } catch (e: Any) {
+            isSubmitting.value = false
+            statusText.value = "Could not submit RSVP. Check Firebase config and try again."
+            statusColor.value = Color.Error
+        }
+    }
+}

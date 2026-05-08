@@ -1,0 +1,66 @@
+import @jalvin/runtime.listOf
+
+const val COUPLE_NAMES: String = "Nao Hayashi and Calvin Nielson"
+const val WEDDING_DATE: String = "April 25, 2027"
+const val VENUE_NAME: String = "Hollins House"
+const val VENUE_ADDRESS: String = "20 Clubhouse Rd, Santa Cruz, CA 95060"
+
+data class RsvpPayload(
+    val fullName: String,
+    val email: String,
+    val guestCount: Int,
+    val attending: Boolean,
+    val needsPlusOne: Boolean,
+    val dietaryNotes: String,
+    val message: String,
+    val submittedAt: String
+)
+
+data class ScheduleItem(
+    val time: String,
+    val title: String
+)
+
+data class RegistryItem(
+    val label: String,
+    val url: String
+)
+
+data class GalleryPhoto(
+    val src: String,
+    val alt: String
+)
+
+fun scheduleItems(): List<ScheduleItem> {
+    return listOf(
+        ScheduleItem(time = "3:30 PM", title = "Guest Arrival"),
+        ScheduleItem(time = "4:30 PM", title = "Ceremony"),
+        ScheduleItem(time = "6:00 PM", title = "Dinner + Toasts"),
+        ScheduleItem(time = "7:30 PM", title = "Dancing")
+    )
+}
+
+fun registryItems(): List<RegistryItem> {
+    return listOf(
+        RegistryItem(label = "Placeholder", url = "https://www.google.com/"),
+        RegistryItem(label = "Placeholder", url = "https://www.google.com/"),
+        RegistryItem(label = "Placeholder", url = "https://www.google.com/")
+    )
+}
+
+fun galleryPhotos(): List<GalleryPhoto> {
+    return listOf(
+        GalleryPhoto(
+            src = "photos/engagement-01.jpg",
+            alt = "Engagement photo one"
+        ),
+        GalleryPhoto(
+            src = "photos/engagement-02.jpg",
+            alt = "Engagement photo two"
+        ),
+        GalleryPhoto(
+            src = "photos/engagement-03.jpg",
+            alt = "Engagement photo three"
+        )
+    )
+}

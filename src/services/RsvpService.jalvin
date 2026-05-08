@@ -1,0 +1,27 @@
+import @jalvin/runtime.*
+import src.models.WeddingData.RsvpPayload
+
+const val FIREBASE_RTDB_BASE_URL: String = "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com"
+const val FIREBASE_DB_AUTH_TOKEN: String = ""
+
+fun firebaseConfigured(): Boolean {
+    return !FIREBASE_RTDB_BASE_URL.contains("YOUR_PROJECT_ID")
+}
+
+fun isEmailLikelyValid(email: String): Boolean {
+    return email.contains("@") && email.contains(".")
+}
+
+suspend fun submitRsvp(payload: RsvpPayload) {
+    if (!firebaseConfigured()) {
+        error("Firebase is not configured in src/services/RsvpService.jalvin")
+    }
+
+    val client = Bibi(FIREBASE_RTDB_BASE_URL) {
+        timeout(8_000)
+        headers { "Content-Type" to "application/json" }
+    }
+
+    val authQuery = if (FIREBASE_DB_AUTH_TOKEN.length > 0) "?auth=${FIREBASE_DB_AUTH_TOKEN}" else ""
+    client.post("/rsvps.json${authQuery}", body = payload)
+}

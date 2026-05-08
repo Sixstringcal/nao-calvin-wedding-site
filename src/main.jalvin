@@ -1,0 +1,44 @@
+import @jalvin/runtime.*
+import @jalvin/ui.Scaffold
+import @jalvin/ui.Column
+import @jalvin/ui.Modifier
+import @jalvin.ui.Box
+import src.models.WeddingData.COUPLE_NAMES
+import src.viewmodels.WeddingViewModel.WeddingViewModel
+import src.components.ContentSections.WeddingHeader
+import src.components.ContentSections.WelcomePage
+import src.components.ContentSections.DetailsPage
+import src.components.ContentSections.GalleryPage
+import src.components.ContentSections.RegistryPage
+import src.components.RsvpSection.RsvpSection
+
+val weddingViewModel = WeddingViewModel()
+
+fun main() {
+    println("Wedding app loaded")
+}
+
+component fun CurrentPageBody(page: String) {
+    when (page) {
+        "welcome" -> WelcomePage()
+        "details" -> DetailsPage()
+        "gallery" -> GalleryPage()
+        "registry" -> RegistryPage()
+        else -> RsvpSection(vm = weddingViewModel)
+    }
+}
+
+component fun WeddingApp() {
+    val currentPage = mutableStateOf("welcome")
+
+    return Scaffold(
+        modifier = Modifier.fillMaxSize().background("#fffaf5"),
+        topBar = WeddingHeader(selectedPage = currentPage.value, onSelect = { page -> currentPage.value = page }),
+    ) {
+        Box(modifier = Modifier.fillMaxWidth().padding(20)) {
+            Column(modifier = Modifier.fillMaxWidth(), spacing = 18) {
+                CurrentPageBody(page = currentPage.value)
+            }
+        }
+    }
+}
