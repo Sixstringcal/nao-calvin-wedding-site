@@ -2,7 +2,7 @@ import @jalvin/runtime.*
 import @jalvin/ui.Scaffold
 import @jalvin/ui.Column
 import @jalvin/ui.Modifier
-import @jalvin.ui.Box
+import @jalvin/ui.Box
 import src.models.WeddingData.COUPLE_NAMES
 import src.viewmodels.WeddingViewModel.WeddingViewModel
 import src.components.ContentSections.WeddingHeader

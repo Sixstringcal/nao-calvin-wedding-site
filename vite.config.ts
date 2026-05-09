@@ -61,7 +61,7 @@ export default defineConfig({
     strictPort: true,
   },
   build: {
-    outDir: "docs",
+    outDir: "dist",
     target: "esnext",
     commonjsOptions: {
       include: [/node_modules/, /packages\/runtime\/dist/],

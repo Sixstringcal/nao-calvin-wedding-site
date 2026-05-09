@@ -3,7 +3,7 @@ name = wedding
 version = 1.0.0
 
 rootDir = src
-outDir = docs
+outDir = dist
 
 # Enable JSX / React
 jsx = true

@@ -1,7 +1,7 @@
 import @jalvin/ui.Card
 import @jalvin/ui.Column
 import @jalvin/ui.Row
-import @jalvin.ui.Box
+import @jalvin/ui.Box
 import @jalvin/ui.Image
 import @jalvin/ui.Text
 import @jalvin/ui.Divider
