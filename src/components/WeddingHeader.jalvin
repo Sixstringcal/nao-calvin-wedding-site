@@ -5,18 +5,26 @@ import @jalvin/ui.Text
 import @jalvin/ui.Modifier
 import @jalvin/ui.TextStyle
 import @jalvin/ui.Card
+import @jalvin/ui.useMutableInteractionSource
+import @jalvin/ui.useIsHovered
 import src.models.WeddingData.COUPLE_NAMES
 import src.models.WeddingData.WEDDING_DATE
 import src.constants.strings.Res
 
 component fun NavChip(label: String, pageKey: String, selectedPage: String, onSelect: (String) -> Unit) {
+    val interactionSource = useMutableInteractionSource()
+    val isHovered = useIsHovered(interactionSource)
+    val isSelected = selectedPage == pageKey
+
     return Card(
         modifier = Modifier
             .padding(0)
             .background("transparent")
             .border("none")
             .borderRadius(0)
-            .boxShadow("none"),
+            .boxShadow("none")
+            .hoverable(interactionSource)
+            .cursor("pointer"),
         elevation = 0,
         outlined = false,
         onClick = { onSelect(pageKey) },
@@ -26,13 +34,13 @@ component fun NavChip(label: String, pageKey: String, selectedPage: String, onSe
                 text = label,
                 style = TextStyle.labelLarge,
                 modifier = Modifier.Default.letterSpacing("0.08em"),
-                color = if (selectedPage == pageKey) "#5c3b24" else "#7a6a5d",
+                color = if (isSelected) "#5c3b24" else if (isHovered) "#4e3526" else "#7a6a5d",
             )
             Box(
                 modifier = Modifier
                     .width(36)
                     .height("2px")
-                    .background(if (selectedPage == pageKey) "#b98a62" else "transparent"),
+                    .background(if (isSelected) "#b98a62" else if (isHovered) "#dac8b8" else "transparent"),
             ) {}
         }
     }
