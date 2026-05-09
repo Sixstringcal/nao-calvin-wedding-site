@@ -1,0 +1,39 @@
+import @jalvin/ui.Card
+import @jalvin/ui.Column
+import @jalvin/ui.Row
+import @jalvin/ui.Image
+import @jalvin/ui.Text
+import @jalvin/ui.Modifier
+import @jalvin/ui.TextStyle
+import @jalvin/ui.Color
+import src.models.WeddingData.galleryPhotos
+import src.components.SectionShell.SectionShell
+
+component fun GallerySection() {
+    return Card(modifier = Modifier.fillMaxWidth(), elevation = 1) {
+        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 14) {
+            Text(text = "Photos", style = TextStyle.titleLarge)
+            Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", style = TextStyle.bodySmall, color = Color.OnSurfaceVariant)
+            Row(spacing = 12, wrap = true) {
+                for (photo in galleryPhotos()) {
+                    Image(
+                        src = photo.src,
+                        alt = photo.alt,
+                        modifier = Modifier.width(260).height(180).borderRadius(10),
+                        contentScale = "crop",
+                    )
+                }
+            }
+        }
+    }
+}
+
+component fun GalleryPage() {
+    return Column(modifier = Modifier.fillMaxWidth(), spacing = 18) {
+        SectionShell(
+            title = "A few favorite photos",
+            subtitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+        )
+        GallerySection()
+    }
+}

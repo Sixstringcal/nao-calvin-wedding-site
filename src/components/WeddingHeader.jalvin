@@ -1,0 +1,94 @@
+import @jalvin/ui.Box
+import @jalvin/ui.Column
+import @jalvin/ui.Row
+import @jalvin/ui.Text
+import @jalvin/ui.Modifier
+import @jalvin/ui.TextStyle
+import @jalvin/ui.Card
+import src.models.WeddingData.COUPLE_NAMES
+import src.models.WeddingData.WEDDING_DATE
+
+component fun NavChip(label: String, pageKey: String, selectedPage: String, onSelect: (String) -> Unit) {
+    return Card(
+        modifier = Modifier
+            .padding(0)
+            .background("transparent")
+            .border("none")
+            .borderRadius(0)
+            .boxShadow("none"),
+        elevation = 0,
+        outlined = false,
+        onClick = { onSelect(pageKey) },
+    ) {
+        Column(modifier = Modifier.padding("10px 8px 4px 8px"), spacing = 8, horizontalAlignment = "center") {
+            Text(
+                text = label,
+                style = TextStyle.labelLarge,
+                modifier = Modifier.Default.letterSpacing("0.08em"),
+                color = if (selectedPage == pageKey) "#5c3b24" else "#7a6a5d",
+            )
+            Box(
+                modifier = Modifier
+                    .width(36)
+                    .height("2px")
+                    .background(if (selectedPage == pageKey) "#b98a62" else "transparent"),
+            ) {}
+        }
+    }
+}
+
+component fun NavBar(selectedPage: String, onSelect: (String) -> Unit) {
+    return Row(
+        modifier = Modifier.fillMaxWidth(),
+        spacing = 20,
+        wrap = true,
+        horizontalArrangement = "center",
+    ) {
+        NavChip(label = "Welcome", pageKey = "welcome", selectedPage = selectedPage, onSelect = onSelect)
+        NavChip(label = "Details", pageKey = "details", selectedPage = selectedPage, onSelect = onSelect)
+        NavChip(label = "Gallery", pageKey = "gallery", selectedPage = selectedPage, onSelect = onSelect)
+        NavChip(label = "Registry", pageKey = "registry", selectedPage = selectedPage, onSelect = onSelect)
+        NavChip(label = "RSVP", pageKey = "rsvp", selectedPage = selectedPage, onSelect = onSelect)
+    }
+}
+
+component fun WeddingHeader(selectedPage: String, onSelect: (String) -> Unit) {
+    return Box(modifier = Modifier.fillMaxWidth().background("#f8f1ea")) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .maxWidth(980)
+                .margin("0 auto")
+                .padding("28px 32px 20px 32px"),
+            spacing = 8,
+            horizontalAlignment = "center",
+        ) {
+            Text(
+                text = "WELCOME TO OUR WEDDING WEEKEND",
+                style = TextStyle.labelLarge,
+                modifier = Modifier.Default.letterSpacing("0.12em"),
+                color = "#9a8069",
+            )
+            Text(
+                text = COUPLE_NAMES,
+                style = TextStyle.displayMedium,
+                modifier = Modifier.Default.fontFamily("Georgia, 'Times New Roman', serif").textAlign("center"),
+                color = "#4e3526",
+            )
+            Text(
+                text = "${WEDDING_DATE}  •  Santa Cruz, California",
+                style = TextStyle.titleMedium,
+                modifier = Modifier.Default.letterSpacing("0.04em").textAlign("center"),
+                color = "#76685d",
+            )
+            Text(
+                style = TextStyle.bodySmall,
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                modifier = Modifier.Default.textAlign("center"),
+                color = "#8f7d70",
+            )
+            Box(modifier = Modifier.width("120px").height("1px").background("#dac8b8").marginTop(8).marginBottom(2)) {}
+            NavBar(selectedPage = selectedPage, onSelect = onSelect)
+        }
+    }
+}

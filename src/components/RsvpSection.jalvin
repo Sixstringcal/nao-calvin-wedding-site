@@ -95,11 +95,22 @@ component fun RsvpSection(
                 }
 
                 Button(
-                    text = "+ Add a guest",
-                    variant = "outlined",
                     onClick = onAddAdditionalGuestName,
-                    modifier = Modifier.width("fit-content")
-                )
+                    variant = "text",
+                    modifier = Modifier
+                        .width("fit-content")
+                        .border("1px solid #dac8b8")
+                        .borderRadius(24)
+                        .padding("8px 24px")
+                        .marginTop(8)
+                ) {
+                    Text(
+                        text = "Add Guest",
+                        style = TextStyle.bodyLarge,
+                        modifier = Modifier.Default.fontFamily("Georgia, serif"),
+                        color = "#4e3526"
+                    )
+                }
             }
 
             Checkbox(

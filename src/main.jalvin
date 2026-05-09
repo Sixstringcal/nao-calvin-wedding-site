@@ -6,11 +6,11 @@ import @jalvin/ui.Box
 import src.models.WeddingData.COUPLE_NAMES
 import src.models.WeddingData.AdditionalGuestInput
 import src.viewmodels.RsvpViewModel.RsvpViewModel
-import src.components.ContentSections.WeddingHeader
-import src.components.ContentSections.WelcomePage
-import src.components.ContentSections.DetailsPage
-import src.components.ContentSections.GalleryPage
-import src.components.ContentSections.RegistryPage
+import src.components.WeddingHeader.WeddingHeader
+import src.components.WelcomePage.WelcomePage
+import src.components.DetailsPage.DetailsPage
+import src.components.GalleryPage.GalleryPage
+import src.components.RegistryPage.RegistryPage
 import src.components.RsvpSection.RsvpSection
 
 val rsvpViewModel = RsvpViewModel()

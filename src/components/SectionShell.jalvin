@@ -1,0 +1,17 @@
+import @jalvin/ui.Card
+import @jalvin/ui.Column
+import @jalvin/ui.Text
+import @jalvin/ui.Modifier
+import @jalvin/ui.TextStyle
+import @jalvin/ui.Color
+
+component fun SectionShell(title: String, subtitle: String? = null) {
+    return Card(modifier = Modifier.fillMaxWidth(), elevation = 1) {
+        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 10) {
+            Text(text = title, style = TextStyle.headlineMedium, color = Color.Primary)
+            if (subtitle != null) {
+                Text(text = subtitle, style = TextStyle.bodyLarge, color = Color.OnSurfaceVariant)
+            }
+        }
+    }
+}

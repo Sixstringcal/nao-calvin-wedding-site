@@ -1,0 +1,73 @@
+import @jalvin/ui.Card
+import @jalvin/ui.Column
+import @jalvin/ui.Row
+import @jalvin/ui.Text
+import @jalvin/ui.Divider
+import @jalvin/ui.Modifier
+import @jalvin/ui.TextStyle
+import @jalvin/ui.Color
+import src.models.WeddingData.WEDDING_DATE
+import src.models.WeddingData.VENUE_NAME
+import src.models.WeddingData.VENUE_ADDRESS
+import src.models.WeddingData.ScheduleItem
+import src.models.WeddingData.scheduleItems
+import src.components.SectionShell.SectionShell
+
+component fun DetailsSection() {
+    return Card(modifier = Modifier.fillMaxWidth(), elevation = 1) {
+        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 10) {
+            Text(text = "Wedding Details", style = TextStyle.titleLarge)
+            Divider(modifier = Modifier.fillMaxWidth())
+            Text(text = "Date: ${WEDDING_DATE}", style = TextStyle.bodyLarge)
+            Text(text = "Venue: ${VENUE_NAME}", style = TextStyle.bodyLarge)
+            Text(text = "Address: ${VENUE_ADDRESS}", style = TextStyle.bodyLarge)
+            Text(text = "Dress Code: Garden formal", style = TextStyle.bodyLarge)
+            Text(text = "Ceremony starts at 4:30 PM", style = TextStyle.bodyLarge)
+        }
+    }
+}
+
+component fun ScheduleCard(item: ScheduleItem) {
+    return Card(modifier = Modifier.width(220), elevation = 0) {
+        Column(modifier = Modifier.padding(18), spacing = 6) {
+            Text(text = item.time, style = TextStyle.titleMedium, color = Color.Primary)
+            Text(text = item.title, style = TextStyle.bodyLarge)
+        }
+    }
+}
+
+component fun ScheduleSection() {
+    return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
+        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 14) {
+            Text(text = "Day Of Schedule", style = TextStyle.titleLarge)
+            Row(spacing = 10, wrap = true) {
+                for (item in scheduleItems()) {
+                    ScheduleCard(item = item)
+                }
+            }
+        }
+    }
+}
+
+component fun LocationSection() {
+    return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
+        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 8) {
+            Text(text = "Location", style = TextStyle.titleMedium)
+            Text(text = VENUE_NAME, style = TextStyle.bodyLarge)
+            Text(text = VENUE_ADDRESS, style = TextStyle.bodyLarge)
+            Text(text = "Map: https://maps.google.com/?q=${VENUE_ADDRESS}", style = TextStyle.bodySmall, color = Color.OnSurfaceVariant)
+        }
+    }
+}
+
+component fun DetailsPage() {
+    return Column(modifier = Modifier.fillMaxWidth(), spacing = 18) {
+        SectionShell(
+            title = "Weekend Details",
+            subtitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+        )
+        DetailsSection()
+        ScheduleSection()
+        LocationSection()
+    }
+}

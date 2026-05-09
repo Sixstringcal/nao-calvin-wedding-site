@@ -1,0 +1,71 @@
+import @jalvin/ui.Card
+import @jalvin/ui.Column
+import @jalvin/ui.Text
+import @jalvin/ui.Modifier
+import @jalvin/ui.TextStyle
+import @jalvin/ui.Color
+import src.models.WeddingData.COUPLE_NAMES
+import src.models.WeddingData.WEDDING_DATE
+import src.models.WeddingData.VENUE_NAME
+import src.models.WeddingData.VENUE_ADDRESS
+
+component fun WelcomeHero() {
+    return Card(modifier = Modifier.fillMaxWidth(), elevation = 2) {
+        Column(modifier = Modifier.fillMaxWidth().padding(40), spacing = 14) {
+            Text(text = "Lorem ipsum dolor sit amet", style = TextStyle.headlineLarge, color = "#5c3b24")
+            Text(
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                style = TextStyle.titleLarge,
+                color = "#6c6259",
+            )
+            Text(text = "${WEDDING_DATE} at ${VENUE_NAME}", style = TextStyle.bodyLarge, color = "#8a7664")
+            Text(text = VENUE_ADDRESS, style = TextStyle.bodyLarge, color = "#8a7664")
+        }
+    }
+}
+
+component fun IntroNote() {
+    return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
+        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 10) {
+            Text(text = "Lorem ipsum", style = TextStyle.titleLarge)
+            Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", style = TextStyle.bodyLarge)
+            Text(text = "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", style = TextStyle.bodyMedium, color = Color.OnSurfaceVariant)
+        }
+    }
+}
+
+component fun HeroSection() {
+    return Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = 2,
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(24),
+            spacing = 10,
+        ) {
+            Text(text = COUPLE_NAMES, style = TextStyle.displaySmall, color = Color.Primary)
+            Text(text = "We're getting married", style = TextStyle.headlineMedium)
+            Text(text = WEDDING_DATE, style = TextStyle.titleLarge)
+            Text(text = "Ceremony + Reception at ${VENUE_NAME}", style = TextStyle.bodyLarge, color = Color.OnSurfaceVariant)
+        }
+    }
+}
+
+component fun StorySection() {
+    return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
+        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 10) {
+            Text(text = "Lorem ipsum", style = TextStyle.titleLarge)
+            Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", style = TextStyle.bodyLarge)
+            Text(text = "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", style = TextStyle.bodyLarge)
+            Text(text = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", style = TextStyle.bodyMedium, color = Color.OnSurfaceVariant)
+        }
+    }
+}
+
+component fun WelcomePage() {
+    return Column(modifier = Modifier.fillMaxWidth(), spacing = 18) {
+        WelcomeHero()
+        IntroNote()
+        StorySection()
+    }
+}
