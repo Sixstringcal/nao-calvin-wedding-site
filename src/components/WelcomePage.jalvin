@@ -8,16 +8,12 @@ import src.models.WeddingData.COUPLE_NAMES
 import src.models.WeddingData.WEDDING_DATE
 import src.models.WeddingData.VENUE_NAME
 import src.models.WeddingData.VENUE_ADDRESS
+import src.constants.strings.Res
 
 component fun WelcomeHero() {
     return Card(modifier = Modifier.fillMaxWidth(), elevation = 2) {
         Column(modifier = Modifier.fillMaxWidth().padding(40), spacing = 14) {
-            Text(text = "Lorem ipsum dolor sit amet", style = TextStyle.headlineLarge, color = "#5c3b24")
-            Text(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                style = TextStyle.titleLarge,
-                color = "#6c6259",
-            )
+            Text(text = Res.LOCATION, style = TextStyle.headlineLarge, color = "#5c3b24")
             Text(text = "${WEDDING_DATE} at ${VENUE_NAME}", style = TextStyle.bodyLarge, color = "#8a7664")
             Text(text = VENUE_ADDRESS, style = TextStyle.bodyLarge, color = "#8a7664")
         }
@@ -27,9 +23,9 @@ component fun WelcomeHero() {
 component fun IntroNote() {
     return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
         Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 10) {
-            Text(text = "Lorem ipsum", style = TextStyle.titleLarge)
-            Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", style = TextStyle.bodyLarge)
-            Text(text = "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", style = TextStyle.bodyMedium, color = Color.OnSurfaceVariant)
+            Text(text = Res.INTRO_TITLE, style = TextStyle.titleLarge)
+            Text(text = Res.INTRO_BODY_1, style = TextStyle.bodyLarge)
+            Text(text = Res.INTRO_BODY_2, style = TextStyle.bodyMedium, color = Color.OnSurfaceVariant)
         }
     }
 }
@@ -44,7 +40,7 @@ component fun HeroSection() {
             spacing = 10,
         ) {
             Text(text = COUPLE_NAMES, style = TextStyle.displaySmall, color = Color.Primary)
-            Text(text = "We're getting married", style = TextStyle.headlineMedium)
+            Text(text = Res.GETTING_MARRIED_TEXT, style = TextStyle.headlineMedium)
             Text(text = WEDDING_DATE, style = TextStyle.titleLarge)
             Text(text = "Ceremony + Reception at ${VENUE_NAME}", style = TextStyle.bodyLarge, color = Color.OnSurfaceVariant)
         }
@@ -54,10 +50,10 @@ component fun HeroSection() {
 component fun StorySection() {
     return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
         Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 10) {
-            Text(text = "Lorem ipsum", style = TextStyle.titleLarge)
-            Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", style = TextStyle.bodyLarge)
-            Text(text = "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", style = TextStyle.bodyLarge)
-            Text(text = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", style = TextStyle.bodyMedium, color = Color.OnSurfaceVariant)
+            Text(text = Res.STORY_TITLE, style = TextStyle.titleLarge)
+            Text(text = Res.STORY_BODY_1, style = TextStyle.bodyLarge)
+            Text(text = Res.STORY_BODY_2, style = TextStyle.bodyLarge)
+            Text(text = Res.STORY_BODY_3, style = TextStyle.bodyMedium, color = Color.OnSurfaceVariant)
         }
     }
 }

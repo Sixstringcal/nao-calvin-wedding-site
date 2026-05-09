@@ -4,6 +4,7 @@ import src.models.WeddingData.AdditionalGuestInput
 import src.models.WeddingData.RsvpPayload
 import src.services.RsvpService.isEmailLikelyValid
 import src.services.RsvpService.submitRsvp
+import src.constants.strings.Res
 
 class RsvpViewModel : ViewModel() {
     val fullName = MutableStateFlow("")
@@ -16,7 +17,7 @@ class RsvpViewModel : ViewModel() {
     private var guestInputIdCounter: Int = 0
 
     val isSubmitting = MutableStateFlow(false)
-    val statusText = MutableStateFlow("Please RSVP by <date>.")
+    val statusText = MutableStateFlow(Res.RSVP_STATUS_INITIAL)
     val statusColor = MutableStateFlow(Color.OnSurfaceVariant)
 
     fun updateFullName(value: String) { this.fullName.value = value }
@@ -55,13 +56,13 @@ class RsvpViewModel : ViewModel() {
         }
 
         if (this.fullName.value.trim().length < 2) {
-            this.statusText.value = "Please enter your full name."
+            this.statusText.value = Res.RSVP_ERROR_NAME_REQUIRED
             this.statusColor.value = Color.Error
             return
         }
 
         if (!isEmailLikelyValid(this.email.value)) {
-            this.statusText.value = "Please enter a valid email address."
+            this.statusText.value = Res.RSVP_ERROR_EMAIL_INVALID
             this.statusColor.value = Color.Error
             return
         }
@@ -73,7 +74,7 @@ class RsvpViewModel : ViewModel() {
         val totalGuestCount: Int = parsedAdditionalGuestNames.length + 1
 
         this.isSubmitting.value = true
-        this.statusText.value = "Submitting your RSVP..."
+        this.statusText.value = Res.RSVP_STATUS_SUBMITTING
         this.statusColor.value = Color.OnSurfaceVariant
 
         try {
@@ -92,11 +93,11 @@ class RsvpViewModel : ViewModel() {
             )
 
             this.isSubmitting.value = false
-            this.statusText.value = "Thank you. Your RSVP was submitted."
+            this.statusText.value = Res.RSVP_STATUS_SUCCESS
             this.statusColor.value = Color.Success
         } catch (e: Any) {
             this.isSubmitting.value = false
-            this.statusText.value = "Could not submit RSVP. Check Firebase config and try again."
+            this.statusText.value = Res.RSVP_STATUS_ERROR
             this.statusColor.value = Color.Error
         }
     }

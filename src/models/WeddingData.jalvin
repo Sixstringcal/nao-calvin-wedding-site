@@ -1,4 +1,5 @@
 import @jalvin/runtime.listOf
+import src.constants.strings.Res
 
 const val COUPLE_NAMES: String = "Nao Hayashi and Calvin Nielson"
 const val WEDDING_DATE: String = "April 25, 2027"
@@ -39,10 +40,9 @@ data class GalleryPhoto(
 
 fun scheduleItems(): List<ScheduleItem> {
     return listOf(
-        ScheduleItem(time = "3:30 PM", title = "Guest Arrival"),
-        ScheduleItem(time = "4:30 PM", title = "Ceremony"),
-        ScheduleItem(time = "6:00 PM", title = "Dinner + Toasts"),
-        ScheduleItem(time = "7:30 PM", title = "Dancing")
+        ScheduleItem(time = "3:30 PM", title = Res.SCHEDULE_GUEST_ARRIVAL),
+        ScheduleItem(time = "4:30 PM", title = Res.SCHEDULE_CEREMONY),
+        ScheduleItem(time = "6:00 PM", title = Res.SCHEDULE_DINNER),
     )
 }
 

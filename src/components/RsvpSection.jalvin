@@ -11,6 +11,7 @@ import @jalvin/ui.Modifier
 import @jalvin/ui.TextStyle
 import @jalvin/ui.Color
 import src.models.WeddingData.AdditionalGuestInput
+import src.constants.strings.Res
 
 component fun RsvpSection(
     fullName: String,
@@ -37,14 +38,14 @@ component fun RsvpSection(
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(32), spacing = 20) {
             Text(
-                text = "RSVP",
+                text = Res.RSVP_LABEL,
                 style = TextStyle.displaySmall,
                 modifier = Modifier.Default.fontFamily("Georgia, 'Times New Roman', serif"),
                 color = "#4e3526"
             )
 
             Text(
-                text = "Please kindly respond by <date>. We look forward to celebrating with you!",
+                text = Res.RSVP_RESPOND_BY,
                 style = TextStyle.bodyLarge,
                 color = "#7a6a5d"
             )
@@ -53,16 +54,16 @@ component fun RsvpSection(
                 Input(
                     value = fullName,
                     onValueChange = { v -> onFullNameChange(v) },
-                    label = "Your Full Name",
-                    placeholder = "Enter your name",
+                    label = Res.RSVP_FULL_NAME_LABEL,
+                    placeholder = Res.RSVP_FULL_NAME_PLACEHOLDER,
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 Input(
                     value = email,
                     onValueChange = { v -> onEmailChange(v) },
-                    label = "Email Address",
-                    placeholder = "email@example.com",
+                    label = Res.RSVP_EMAIL_LABEL,
+                    placeholder = Res.RSVP_EMAIL_PLACEHOLDER,
                     type = "email",
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -70,7 +71,7 @@ component fun RsvpSection(
 
             Column(modifier = Modifier.fillMaxWidth(), spacing = 12) {
                 Text(
-                    text = "Additional Guests",
+                    text = Res.RSVP_ADDITIONAL_GUESTS_TITLE,
                     style = TextStyle.titleMedium,
                     color = "#5c3b24"
                 )
@@ -80,7 +81,7 @@ component fun RsvpSection(
                         Input(
                             value = guest.name,
                             onValueChange = { v -> onAdditionalGuestNameChange(guest.id, v) },
-                            placeholder = "Guest full name",
+                            placeholder = Res.RSVP_GUEST_NAME_PLACEHOLDER,
                             modifier = Modifier.fillMaxWidth()
                         )
                         Card(
@@ -110,7 +111,7 @@ component fun RsvpSection(
                         .marginTop(8)
                 ) {
                     Text(
-                        text = "Add Guest",
+                        text = Res.RSVP_ADD_GUEST_BUTTON,
                         style = TextStyle.bodyLarge,
                         modifier = Modifier.Default.fontFamily("Georgia, serif"),
                         color = "#4e3526"
@@ -121,8 +122,8 @@ component fun RsvpSection(
             TextArea(
                 value = dietaryNotes,
                 onValueChange = { v -> onDietaryNotesChange(v) },
-                label = "Dietary Restrictions",
-                placeholder = "Please let us know if you have any allergies or dietary requirements",
+                label = Res.RSVP_DIETARY_LABEL,
+                placeholder = Res.RSVP_DIETARY_PLACEHOLDER,
                 rows = 3,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -130,8 +131,8 @@ component fun RsvpSection(
             TextArea(
                 value = note,
                 onValueChange = { v -> onNoteChange(v) },
-                label = "Message for the Couple (Optional)",
-                placeholder = "Leave a note for Nao & Calvin",
+                label = Res.RSVP_MESSAGE_LABEL,
+                placeholder = Res.RSVP_MESSAGE_PLACEHOLDER,
                 rows = 4,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -147,7 +148,7 @@ component fun RsvpSection(
                     .borderRadius(24)
             ) {
                 Text(
-                    text = if (isSubmitting) "Sending..." else "Submit RSVP",
+                    text = if (isSubmitting) Res.RSVP_SENDING else Res.RSVP_SUBMIT_BUTTON,
                     style = TextStyle.bodyLarge,
                     modifier = Modifier.Default.fontFamily("Georgia, serif"),
                     color = "#4e3526"

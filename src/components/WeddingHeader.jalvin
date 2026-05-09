@@ -7,6 +7,7 @@ import @jalvin/ui.TextStyle
 import @jalvin/ui.Card
 import src.models.WeddingData.COUPLE_NAMES
 import src.models.WeddingData.WEDDING_DATE
+import src.constants.strings.Res
 
 component fun NavChip(label: String, pageKey: String, selectedPage: String, onSelect: (String) -> Unit) {
     return Card(
@@ -44,10 +45,10 @@ component fun NavBar(selectedPage: String, onSelect: (String) -> Unit) {
         wrap = true,
         horizontalArrangement = "center",
     ) {
-        NavChip(label = "Welcome", pageKey = "welcome", selectedPage = selectedPage, onSelect = onSelect)
-        NavChip(label = "Details", pageKey = "details", selectedPage = selectedPage, onSelect = onSelect)
-        NavChip(label = "Registry", pageKey = "registry", selectedPage = selectedPage, onSelect = onSelect)
-        NavChip(label = "RSVP", pageKey = "rsvp", selectedPage = selectedPage, onSelect = onSelect)
+        NavChip(label = Res.WELCOME_LABEL, pageKey = "welcome", selectedPage = selectedPage, onSelect = onSelect)
+        NavChip(label = Res.DETAILS_LABEL, pageKey = "details", selectedPage = selectedPage, onSelect = onSelect)
+        NavChip(label = Res.REGISTRY_LABEL, pageKey = "registry", selectedPage = selectedPage, onSelect = onSelect)
+        NavChip(label = Res.RSVP_LABEL, pageKey = "rsvp", selectedPage = selectedPage, onSelect = onSelect)
     }
 }
 
@@ -63,19 +64,13 @@ component fun WeddingHeader(selectedPage: String, onSelect: (String) -> Unit) {
             horizontalAlignment = "center",
         ) {
             Text(
-                text = "WELCOME TO OUR WEDDING WEEKEND",
-                style = TextStyle.labelLarge,
-                modifier = Modifier.Default.letterSpacing("0.12em"),
-                color = "#9a8069",
-            )
-            Text(
                 text = COUPLE_NAMES,
                 style = TextStyle.displayMedium,
                 modifier = Modifier.Default.fontFamily("Georgia, 'Times New Roman', serif").textAlign("center"),
                 color = "#4e3526",
             )
             Text(
-                text = "${WEDDING_DATE}  •  Santa Cruz, California",
+                text = "${WEDDING_DATE}  •  ${Res.HEADER_LOCATION}",
                 style = TextStyle.titleMedium,
                 modifier = Modifier.Default.letterSpacing("0.04em").textAlign("center"),
                 color = "#76685d",

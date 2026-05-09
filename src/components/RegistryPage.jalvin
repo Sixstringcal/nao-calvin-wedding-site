@@ -7,11 +7,12 @@ import @jalvin/ui.TextStyle
 import @jalvin/ui.Color
 import src.models.WeddingData.registryItems
 import src.components.SectionShell.SectionShell
+import src.constants.strings.Res
 
 component fun RegistrySection() {
     return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
         Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 12) {
-            Text(text = "Registry", style = TextStyle.titleLarge)
+            Text(text = Res.REGISTRY_TITLE, style = TextStyle.titleLarge)
             for (item in registryItems()) {
                 Card(modifier = Modifier.fillMaxWidth(), elevation = 0) {
                     Row(modifier = Modifier.fillMaxWidth().padding(16), horizontalArrangement = "spaceBetween", wrap = true) {
@@ -20,7 +21,6 @@ component fun RegistrySection() {
                     }
                 }
             }
-            Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", style = TextStyle.bodyMedium, color = Color.OnSurfaceVariant)
         }
     }
 }
@@ -28,8 +28,8 @@ component fun RegistrySection() {
 component fun RegistryPage() {
     return Column(modifier = Modifier.fillMaxWidth(), spacing = 18) {
         SectionShell(
-            title = "Registry",
-            subtitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+            title = Res.REGISTRY_TITLE,
+            subtitle = Res.REGISTRY_PAGE_SUBTITLE,
         )
         RegistrySection()
     }

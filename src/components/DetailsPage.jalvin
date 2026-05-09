@@ -12,17 +12,18 @@ import src.models.WeddingData.VENUE_ADDRESS
 import src.models.WeddingData.ScheduleItem
 import src.models.WeddingData.scheduleItems
 import src.components.SectionShell.SectionShell
+import src.constants.strings.Res
 
 component fun DetailsSection() {
     return Card(modifier = Modifier.fillMaxWidth(), elevation = 1) {
         Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 10) {
-            Text(text = "Wedding Details", style = TextStyle.titleLarge)
+            Text(text = Res.WEDDING_DETAILS_TITLE, style = TextStyle.titleLarge)
             Divider(modifier = Modifier.fillMaxWidth())
-            Text(text = "Date: ${WEDDING_DATE}", style = TextStyle.bodyLarge)
-            Text(text = "Venue: ${VENUE_NAME}", style = TextStyle.bodyLarge)
-            Text(text = "Address: ${VENUE_ADDRESS}", style = TextStyle.bodyLarge)
-            Text(text = "Dress Code: Garden formal", style = TextStyle.bodyLarge)
-            Text(text = "Ceremony starts at 4:30 PM", style = TextStyle.bodyLarge)
+            Text(text = "${Res.DATE_LABEL}: ${WEDDING_DATE}", style = TextStyle.bodyLarge)
+            Text(text = "${Res.VENUE_LABEL}: ${VENUE_NAME}", style = TextStyle.bodyLarge)
+            Text(text = "${Res.ADDRESS_LABEL}: ${VENUE_ADDRESS}", style = TextStyle.bodyLarge)
+            Text(text = "${Res.DRESS_CODE_LABEL}: ${Res.DRESS_CODE_VALUE}", style = TextStyle.bodyLarge)
+            Text(text = Res.CEREMONY_TIME_INFO, style = TextStyle.bodyLarge)
         }
     }
 }
@@ -39,7 +40,7 @@ component fun ScheduleCard(item: ScheduleItem) {
 component fun ScheduleSection() {
     return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
         Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 14) {
-            Text(text = "Day Of Schedule", style = TextStyle.titleLarge)
+            Text(text = Res.DAY_OF_SCHEDULE_TITLE, style = TextStyle.titleLarge)
             Row(spacing = 10, wrap = true) {
                 for (item in scheduleItems()) {
                     ScheduleCard(item = item)
@@ -52,10 +53,10 @@ component fun ScheduleSection() {
 component fun LocationSection() {
     return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
         Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 8) {
-            Text(text = "Location", style = TextStyle.titleMedium)
+            Text(text = Res.LOCATION_LABEL, style = TextStyle.titleMedium)
             Text(text = VENUE_NAME, style = TextStyle.bodyLarge)
             Text(text = VENUE_ADDRESS, style = TextStyle.bodyLarge)
-            Text(text = "Map: https://maps.google.com/?q=${VENUE_ADDRESS}", style = TextStyle.bodySmall, color = Color.OnSurfaceVariant)
+            Text(text = "${Res.MAP_LABEL}: https://maps.google.com/?q=${VENUE_ADDRESS}", style = TextStyle.bodySmall, color = Color.OnSurfaceVariant)
         }
     }
 }
@@ -63,8 +64,8 @@ component fun LocationSection() {
 component fun DetailsPage() {
     return Column(modifier = Modifier.fillMaxWidth(), spacing = 18) {
         SectionShell(
-            title = "Weekend Details",
-            subtitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+            title = Res.DETAILS_PAGE_TITLE,
+            subtitle = Res.DETAILS_PAGE_SUBTITLE,
         )
         DetailsSection()
         ScheduleSection()

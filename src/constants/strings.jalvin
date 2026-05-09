@@ -1,0 +1,79 @@
+fun isJapanese(): Boolean {
+    try {
+        return navigator.language.startsWith("ja")
+    } catch (e: Any) {
+        return false
+    }
+}
+
+val isJa: Boolean = isJapanese()
+
+fun t(en: String, ja: String): String {
+    return if (isJa) ja else en
+}
+
+class Resources {
+    val WELCOME_LABEL: String = t("Welcome", "ようこそ")
+    val DETAILS_LABEL: String = t("Details", "詳細")
+    val REGISTRY_LABEL: String = t("Registry", "レジストリ")
+    val RSVP_LABEL: String = t("RSVP", "出欠確認")
+
+    val HEADER_LOCATION: String = t("Santa Cruz, California", "カリフォルニア州サンタクルーズ")
+
+    val RSVP_RESPOND_BY: String = t("Please kindly respond by <date>. We look forward to celebrating with you!", "<date>までにご回答ください。お祝いできることを楽しみにしています！")
+    val RSVP_FULL_NAME_LABEL: String = t("Your Full Name", "お名前（フルネーム）")
+    val RSVP_FULL_NAME_PLACEHOLDER: String = t("Enter your name", "お名前を入力してください")
+    val RSVP_EMAIL_LABEL: String = t("Email Address", "メールアドレス")
+    val RSVP_EMAIL_PLACEHOLDER: String = t("email@example.com", "email@example.com")
+    val RSVP_ADDITIONAL_GUESTS_TITLE: String = t("Additional Guests", "同伴者")
+    val RSVP_GUEST_NAME_PLACEHOLDER: String = t("Guest full name", "同伴者のフルネーム")
+    val RSVP_ADD_GUEST_BUTTON: String = t("Add Guest", "同伴者を追加")
+    val RSVP_DIETARY_LABEL: String = t("Dietary Restrictions", "食事に関するご要望")
+    val RSVP_DIETARY_PLACEHOLDER: String = t("Please let us know if you have any allergies or dietary requirements", "アレルギーや食事制限があれば教えてください")
+    val RSVP_MESSAGE_LABEL: String = t("Message for the Couple (Optional)", "メッセージ（任意）")
+    val RSVP_MESSAGE_PLACEHOLDER: String = t("Leave a note for Nao & Calvin", "二人にメッセージを残してください")
+    val RSVP_SUBMIT_BUTTON: String = t("Submit RSVP", "RSVPを送信")
+    val RSVP_SENDING: String = t("Sending...", "送信中...")
+
+    val RSVP_STATUS_INITIAL: String = t("Please RSVP by <date>.", "<date>までに出欠のご回答をお願いいたします。")
+    val RSVP_ERROR_NAME_REQUIRED: String = t("Please enter your full name.", "フルネームを入力してください。")
+    val RSVP_ERROR_EMAIL_INVALID: String = t("Please enter a valid email address.", "有効なメールアドレスを入力してください。")
+    val RSVP_STATUS_SUBMITTING: String = t("Submitting your RSVP...", "RSVPを送信中...")
+    val RSVP_STATUS_SUCCESS: String = t("Thank you. Your RSVP was submitted.", "ありがとうございます。RSVPが送信されました。")
+    val RSVP_STATUS_ERROR: String = t("Could not submit RSVP. Please try again.", "RSVPを送信できませんでした。設定を確認して再度お試しください。")
+
+    // Details Page
+    val WEDDING_DETAILS_TITLE: String = t("Wedding Details", "結婚式の詳細")
+    val DATE_LABEL: String = t("Date", "日付")
+    val VENUE_LABEL: String = t("Venue", "会場")
+    val ADDRESS_LABEL: String = t("Address", "住所")
+    val DRESS_CODE_LABEL: String = t("Dress Code", "ドレスコード")
+    val DRESS_CODE_VALUE: String = t("TBD", "TBD")
+    val CEREMONY_TIME_INFO: String = t("Ceremony starts at <time> pm", "挙式は午後<time>に始まります")
+    val DAY_OF_SCHEDULE_TITLE: String = t("Day Of Schedule", "当日のスケジュール")
+    val LOCATION_LABEL: String = t("Location", "場所")
+    val MAP_LABEL: String = t("Map", "地図")
+    val DETAILS_PAGE_TITLE: String = t("Wedding Details", "結婚式の詳細")
+    val DETAILS_PAGE_SUBTITLE: String = t("Everything you need to know about our big day.", "結婚式当日の詳細についてご案内いたします。")
+
+    // Schedule Items
+    val SCHEDULE_GUEST_ARRIVAL: String = t("Guest Arrival", "受付開始")
+    val SCHEDULE_CEREMONY: String = t("Ceremony", "挙式")
+    val SCHEDULE_DINNER: String = t("Dinner + Toasts", "披露宴・乾杯")
+
+    // Registry Page
+    val REGISTRY_TITLE: String = t("Registry", "レジストリ")
+
+    // Welcome Page
+    val LOCATION: String = t("Location", "場所")
+    val INTRO_TITLE: String = t("Lorem ipsum", "not ready for translation")
+    val INTRO_BODY_1: String = t("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "not ready for translation")
+    val INTRO_BODY_2: String = t("Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", "not ready for translation")
+    val STORY_TITLE: String = t("Lorem ipsum", "not ready for translation")
+    val STORY_BODY_1: String = t("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "not ready for translation")
+    val STORY_BODY_2: String = t("Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", "not ready for translation")
+    val STORY_BODY_3: String = t("Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", "not ready for translation")
+    val GETTING_MARRIED_TEXT: String = t("We're getting married", "結婚します")
+}
+
+val Res: Resources = Resources()
