@@ -7,6 +7,7 @@ const require = createRequire(import.meta.url);
 const jalvin = require("@jalvin/vite-plugin").default;
 const uiCompatId = "virtual:jalvin-ui-compat";
 const uiCompatResolvedId = "\0virtual:jalvin-ui-compat";
+const basePath = process.env.VITE_BASE_PATH || "/";
 
 function jalvinUiCompatPlugin() {
   return {
@@ -26,7 +27,20 @@ function toChildArray(children) {
 }
 
 function withChildren(fn) {
-  return (props) => fn(props, toChildArray(props.children));
+  return (props, childrenArg) => {
+    const safeProps = props && typeof props === "object" ? { ...props } : props;
+    const propChildren = safeProps && typeof safeProps === "object"
+      ? (safeProps.children ?? safeProps.content)
+      : undefined;
+    const forwardedChildren = childrenArg !== undefined ? childrenArg : propChildren;
+
+    if (safeProps && typeof safeProps === "object") {
+      delete safeProps.children;
+      delete safeProps.content;
+    }
+
+    return fn(safeProps, toChildArray(forwardedChildren));
+  };
 }
 
 export * from ${JSON.stringify(resolve(__dirname, "node_modules/@jalvin/ui/dist/index.js"))};
@@ -44,7 +58,7 @@ export const TopBar = withChildren(Raw.TopBar);
 }
 
 export default defineConfig({
-  base: "./",
+  base: basePath,
   resolve: {
     alias: {
       "@jalvin/ui": uiCompatId,
