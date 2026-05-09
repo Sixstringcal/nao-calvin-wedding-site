@@ -15,10 +15,8 @@ import src.models.WeddingData.AdditionalGuestInput
 component fun RsvpSection(
     fullName: String,
     email: String,
-    guestCount: String = "1",
     additionalGuestNames: List<AdditionalGuestInput> = listOf(),
     attending: Boolean,
-    plusOne: Boolean,
     dietaryNotes: String,
     note: String,
     isSubmitting: Boolean,
@@ -26,87 +24,107 @@ component fun RsvpSection(
     statusColor: Color,
     onFullNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
-    onGuestCountChange: (String) -> Unit,
     onAddAdditionalGuestName: () -> Unit,
     onAdditionalGuestNameChange: (String, String) -> Unit,
     onRemoveAdditionalGuestName: (String) -> Unit,
     onAttendingChange: (Boolean) -> Unit,
-    onPlusOneChange: (Boolean) -> Unit,
     onDietaryNotesChange: (String) -> Unit,
     onNoteChange: (String) -> Unit,
     onSubmit: () -> Unit,
 ) {
-    return Card(modifier = Modifier.fillMaxWidth(), elevation = 2) {
-        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 14) {
-            Text(text = "RSVP", style = TextStyle.headlineMedium)
-            Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", style = TextStyle.bodyLarge)
-
-            Input(
-                value = fullName,
-                onValueChange = { v -> onFullNameChange(v) },
-                label = "Full name",
-                placeholder = "Lorem ipsum",
+    return Card(
+        modifier = Modifier.fillMaxWidth().background("#fcf9f6"),
+        elevation = 0,
+        outlined = true
+    ) {
+        Column(modifier = Modifier.fillMaxWidth().padding(32), spacing = 20) {
+            Text(
+                text = "RSVP",
+                style = TextStyle.displaySmall,
+                modifier = Modifier.Default.fontFamily("Georgia, 'Times New Roman', serif"),
+                color = "#4e3526"
+            )
+            
+            Text(
+                text = "Please kindly respond by August 15, 2026. We look forward to celebrating with you!",
+                style = TextStyle.bodyLarge,
+                color = "#7a6a5d"
             )
 
-            Input(
-                value = email,
-                onValueChange = { v -> onEmailChange(v) },
-                label = "Email",
-                placeholder = "Lorem ipsum",
-                type = "email",
-            )
+            Column(modifier = Modifier.fillMaxWidth(), spacing = 16) {
+                Input(
+                    value = fullName,
+                    onValueChange = { v -> onFullNameChange(v) },
+                    label = "Your Full Name",
+                    placeholder = "Enter your name",
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-            Input(
-                value = guestCount,
-                onValueChange = { v -> onGuestCountChange(v) },
-                label = "Total guests",
-                placeholder = "Lorem ipsum",
-            )
-
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = "spaceBetween", verticalAlignment = "center") {
-                Text(text = "Names of additional guests", style = TextStyle.titleMedium)
-                Button(text = "+", variant = "outlined", onClick = onAddAdditionalGuestName)
+                Input(
+                    value = email,
+                    onValueChange = { v -> onEmailChange(v) },
+                    label = "Email Address",
+                    placeholder = "email@example.com",
+                    type = "email",
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
 
-            for (guest in additionalGuestNames) {
-                Row(modifier = Modifier.fillMaxWidth(), spacing = 8, verticalAlignment = "end") {
-                    Input(
-                        value = guest.name,
-                        onValueChange = { v -> onAdditionalGuestNameChange(guest.id, v) },
-                        label = "Guest name",
-                        placeholder = "Full name",
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                    Button(text = "x", variant = "text", onClick = { onRemoveAdditionalGuestName(guest.id) })
+            Column(modifier = Modifier.fillMaxWidth(), spacing = 12) {
+                Text(
+                    text = "Additional Guests",
+                    style = TextStyle.titleMedium,
+                    color = "#5c3b24"
+                )
+                
+                for (guest in additionalGuestNames) {
+                    Row(modifier = Modifier.fillMaxWidth(), spacing = 12, verticalAlignment = "center") {
+                        Input(
+                            value = guest.name,
+                            onValueChange = { v -> onAdditionalGuestNameChange(guest.id, v) },
+                            placeholder = "Guest full name",
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Button(
+                            text = "Remove",
+                            variant = "text",
+                            onClick = { onRemoveAdditionalGuestName(guest.id) },
+                            color = Color.Error
+                        )
+                    }
                 }
+
+                Button(
+                    text = "+ Add a guest",
+                    variant = "outlined",
+                    onClick = onAddAdditionalGuestName,
+                    modifier = Modifier.width("fit-content")
+                )
             }
 
             Checkbox(
                 checked = attending,
                 onCheckedChange = { v -> onAttendingChange(v) },
-                label = "I / we can attend",
-            )
-
-            Checkbox(
-                checked = plusOne,
-                onCheckedChange = { v -> onPlusOneChange(v) },
-                label = "I need a plus one",
+                label = "I / we will be attending",
+                color = "#5c3b24"
             )
 
             TextArea(
                 value = dietaryNotes,
                 onValueChange = { v -> onDietaryNotesChange(v) },
-                label = "Dietary needs",
-                placeholder = "Lorem ipsum dolor sit amet",
+                label = "Dietary Restrictions",
+                placeholder = "Please let us know if you have any allergies or dietary requirements",
                 rows = 3,
+                modifier = Modifier.fillMaxWidth()
             )
 
             TextArea(
                 value = note,
                 onValueChange = { v -> onNoteChange(v) },
-                label = "Message for the couple",
-                placeholder = "Lorem ipsum dolor sit amet",
+                label = "Message for the Couple (Optional)",
+                placeholder = "Leave a note for Nao & Calvin",
                 rows = 4,
+                modifier = Modifier.fillMaxWidth()
             )
 
             Button(
@@ -114,9 +132,16 @@ component fun RsvpSection(
                 enabled = !isSubmitting,
                 variant = "filled",
                 onClick = onSubmit,
+                modifier = Modifier.fillMaxWidth().height(48),
+                color = "#5c3b24"
             )
 
-            Text(text = statusText, style = TextStyle.bodyMedium, color = statusColor)
+            Text(
+                text = statusText,
+                style = TextStyle.bodyMedium,
+                color = if (statusColor == Color.OnSurfaceVariant) "#8f7d70" else statusColor,
+                modifier = Modifier.Default.textAlign("center").fillMaxWidth()
+            )
         }
     }
 }

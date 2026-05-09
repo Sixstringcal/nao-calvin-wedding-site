@@ -8,10 +8,8 @@ import src.services.RsvpService.submitRsvp
 class RsvpViewModel : ViewModel() {
     val fullName = MutableStateFlow("")
     val email = MutableStateFlow("")
-    val guestCount = MutableStateFlow("1")
     val additionalGuestNames = MutableStateFlow(listOf<AdditionalGuestInput>())
     val attending = MutableStateFlow(true)
-    val plusOne = MutableStateFlow(false)
     val dietaryNotes = MutableStateFlow("")
     val note = MutableStateFlow("")
 
@@ -23,7 +21,6 @@ class RsvpViewModel : ViewModel() {
 
     fun updateFullName(value: String) { this.fullName.value = value }
     fun updateEmail(value: String) { this.email.value = value }
-    fun updateGuestCount(value: String) { this.guestCount.value = value }
 
     fun addAdditionalGuestNameInput() {
         this.guestInputIdCounter = this.guestInputIdCounter + 1
@@ -49,7 +46,6 @@ class RsvpViewModel : ViewModel() {
     }
 
     fun updateAttending(value: Boolean) { this.attending.value = value }
-    fun updatePlusOne(value: Boolean) { this.plusOne.value = value }
     fun updateDietaryNotes(value: String) { this.dietaryNotes.value = value }
     fun updateNote(value: String) { this.note.value = value }
 
@@ -57,8 +53,6 @@ class RsvpViewModel : ViewModel() {
         if (this.isSubmitting.value) {
             return
         }
-
-        val parsedGuestCount: Int = this.guestCount.value.toIntOrNull() ?: 1
 
         if (this.fullName.value.trim().length < 2) {
             this.statusText.value = "Please enter your full name."
@@ -72,28 +66,11 @@ class RsvpViewModel : ViewModel() {
             return
         }
 
-        if (parsedGuestCount < 1) {
-            this.statusText.value = "Guest count must be at least 1."
-            this.statusColor.value = Color.Error
-            return
-        }
-
         val parsedAdditionalGuestNames: List<String> = this.additionalGuestNames.value
             .map { guest -> guest.name.trim() }
             .filter { value -> value.length > 0 }
 
-        val requiredAdditionalGuests: Int = parsedGuestCount - 1
-        if (requiredAdditionalGuests > 0 && parsedAdditionalGuestNames.length < requiredAdditionalGuests) {
-            this.statusText.value = "Please enter the names of all additional guests."
-            this.statusColor.value = Color.Error
-            return
-        }
-
-        if (requiredAdditionalGuests >= 0 && parsedAdditionalGuestNames.length > requiredAdditionalGuests) {
-            this.statusText.value = "Please make additional guest names match your total guest count."
-            this.statusColor.value = Color.Error
-            return
-        }
+        val totalGuestCount: Int = parsedAdditionalGuestNames.length + 1
 
         this.isSubmitting.value = true
         this.statusText.value = "Submitting your RSVP..."
@@ -104,10 +81,10 @@ class RsvpViewModel : ViewModel() {
                 RsvpPayload(
                     fullName = this.fullName.value,
                     email = this.email.value,
-                    guestCount = parsedGuestCount,
+                    guestCount = totalGuestCount,
                     additionalGuestNames = parsedAdditionalGuestNames,
                     attending = this.attending.value,
-                    needsPlusOne = this.plusOne.value,
+                    needsPlusOne = false, // No longer asked
                     dietaryNotes = this.dietaryNotes.value,
                     message = this.note.value,
                     submittedAt = Date().toISOString()
