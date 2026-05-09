@@ -9,7 +9,6 @@ import src.viewmodels.RsvpViewModel.RsvpViewModel
 import src.components.WeddingHeader.WeddingHeader
 import src.components.WelcomePage.WelcomePage
 import src.components.DetailsPage.DetailsPage
-import src.components.GalleryPage.GalleryPage
 import src.components.RegistryPage.RegistryPage
 import src.components.RsvpSection.RsvpSection
 
@@ -34,7 +33,6 @@ component fun CurrentPageBody(
     when (page) {
         "welcome" -> WelcomePage()
         "details" -> DetailsPage()
-        "gallery" -> GalleryPage()
         "registry" -> RegistryPage()
         else -> RsvpSection(
             fullName = fullName,

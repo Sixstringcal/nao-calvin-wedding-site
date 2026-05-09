@@ -46,7 +46,6 @@ component fun NavBar(selectedPage: String, onSelect: (String) -> Unit) {
     ) {
         NavChip(label = "Welcome", pageKey = "welcome", selectedPage = selectedPage, onSelect = onSelect)
         NavChip(label = "Details", pageKey = "details", selectedPage = selectedPage, onSelect = onSelect)
-        NavChip(label = "Gallery", pageKey = "gallery", selectedPage = selectedPage, onSelect = onSelect)
         NavChip(label = "Registry", pageKey = "registry", selectedPage = selectedPage, onSelect = onSelect)
         NavChip(label = "RSVP", pageKey = "rsvp", selectedPage = selectedPage, onSelect = onSelect)
     }
