@@ -9,11 +9,17 @@ data class RsvpPayload(
     val fullName: String,
     val email: String,
     val guestCount: Int,
+    val additionalGuestNames: List<String>,
     val attending: Boolean,
     val needsPlusOne: Boolean,
     val dietaryNotes: String,
     val message: String,
     val submittedAt: String
+)
+
+data class AdditionalGuestInput(
+    val id: String,
+    val name: String
 )
 
 data class ScheduleItem(

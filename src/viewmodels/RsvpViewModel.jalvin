@@ -5,7 +5,7 @@ import src.models.WeddingData.RsvpPayload
 import src.services.RsvpService.isEmailLikelyValid
 import src.services.RsvpService.submitRsvp
 
-class WeddingViewModel : ViewModel() {
+class RsvpViewModel : ViewModel() {
     val fullName = MutableStateFlow("")
     val email = MutableStateFlow("")
     val guestCount = MutableStateFlow("1")
@@ -24,13 +24,16 @@ class WeddingViewModel : ViewModel() {
     fun updateFullName(value: String) { this.fullName.value = value }
     fun updateEmail(value: String) { this.email.value = value }
     fun updateGuestCount(value: String) { this.guestCount.value = value }
+
     fun addAdditionalGuestNameInput() {
-        guestInputIdCounter = guestInputIdCounter + 1
-        this.additionalGuestNames.value = this.additionalGuestNames.value + AdditionalGuestInput(
-            id = "guest-${guestInputIdCounter}",
+        this.guestInputIdCounter = this.guestInputIdCounter + 1
+        val newGuest: AdditionalGuestInput = AdditionalGuestInput(
+            id = "guest-${this.guestInputIdCounter}",
             name = ""
         )
+        this.additionalGuestNames.value = this.additionalGuestNames.value.concat(listOf(newGuest))
     }
+
     fun updateAdditionalGuestNameInput(id: String, value: String) {
         this.additionalGuestNames.value = this.additionalGuestNames.value.map { guest ->
             if (guest.id == id) {
@@ -40,82 +43,84 @@ class WeddingViewModel : ViewModel() {
             }
         }
     }
+
     fun removeAdditionalGuestNameInput(id: String) {
         this.additionalGuestNames.value = this.additionalGuestNames.value.filter { guest -> guest.id != id }
     }
+
     fun updateAttending(value: Boolean) { this.attending.value = value }
     fun updatePlusOne(value: Boolean) { this.plusOne.value = value }
     fun updateDietaryNotes(value: String) { this.dietaryNotes.value = value }
     fun updateNote(value: String) { this.note.value = value }
 
     suspend fun submit() {
-        if (isSubmitting.value) {
+        if (this.isSubmitting.value) {
             return
         }
 
-        val parsedGuestCount: Int = guestCount.value.toIntOrNull() ?: 1
+        val parsedGuestCount: Int = this.guestCount.value.toIntOrNull() ?: 1
 
-        if (fullName.value.trim().length < 2) {
-            statusText.value = "Please enter your full name."
-            statusColor.value = Color.Error
+        if (this.fullName.value.trim().length < 2) {
+            this.statusText.value = "Please enter your full name."
+            this.statusColor.value = Color.Error
             return
         }
 
-        if (!isEmailLikelyValid(email.value)) {
-            statusText.value = "Please enter a valid email address."
-            statusColor.value = Color.Error
+        if (!isEmailLikelyValid(this.email.value)) {
+            this.statusText.value = "Please enter a valid email address."
+            this.statusColor.value = Color.Error
             return
         }
 
         if (parsedGuestCount < 1) {
-            statusText.value = "Guest count must be at least 1."
-            statusColor.value = Color.Error
+            this.statusText.value = "Guest count must be at least 1."
+            this.statusColor.value = Color.Error
             return
         }
 
-        val parsedAdditionalGuestNames: List<String> = additionalGuestNames.value
+        val parsedAdditionalGuestNames: List<String> = this.additionalGuestNames.value
             .map { guest -> guest.name.trim() }
             .filter { value -> value.length > 0 }
 
         val requiredAdditionalGuests: Int = parsedGuestCount - 1
         if (requiredAdditionalGuests > 0 && parsedAdditionalGuestNames.length < requiredAdditionalGuests) {
-            statusText.value = "Please enter the names of all additional guests."
-            statusColor.value = Color.Error
+            this.statusText.value = "Please enter the names of all additional guests."
+            this.statusColor.value = Color.Error
             return
         }
 
         if (requiredAdditionalGuests >= 0 && parsedAdditionalGuestNames.length > requiredAdditionalGuests) {
-            statusText.value = "Please make additional guest names match your total guest count."
-            statusColor.value = Color.Error
+            this.statusText.value = "Please make additional guest names match your total guest count."
+            this.statusColor.value = Color.Error
             return
         }
 
-        isSubmitting.value = true
-        statusText.value = "Submitting your RSVP..."
-        statusColor.value = Color.OnSurfaceVariant
+        this.isSubmitting.value = true
+        this.statusText.value = "Submitting your RSVP..."
+        this.statusColor.value = Color.OnSurfaceVariant
 
         try {
             submitRsvp(
                 RsvpPayload(
-                    fullName = fullName.value,
-                    email = email.value,
+                    fullName = this.fullName.value,
+                    email = this.email.value,
                     guestCount = parsedGuestCount,
                     additionalGuestNames = parsedAdditionalGuestNames,
-                    attending = attending.value,
-                    needsPlusOne = plusOne.value,
-                    dietaryNotes = dietaryNotes.value,
-                    message = note.value,
+                    attending = this.attending.value,
+                    needsPlusOne = this.plusOne.value,
+                    dietaryNotes = this.dietaryNotes.value,
+                    message = this.note.value,
                     submittedAt = Date().toISOString()
                 )
             )
 
-            isSubmitting.value = false
-            statusText.value = "Thank you. Your RSVP was submitted."
-            statusColor.value = Color.Success
+            this.isSubmitting.value = false
+            this.statusText.value = "Thank you. Your RSVP was submitted."
+            this.statusColor.value = Color.Success
         } catch (e: Any) {
-            isSubmitting.value = false
-            statusText.value = "Could not submit RSVP. Check Firebase config and try again."
-            statusColor.value = Color.Error
+            this.isSubmitting.value = false
+            this.statusText.value = "Could not submit RSVP. Check Firebase config and try again."
+            this.statusColor.value = Color.Error
         }
     }
 }

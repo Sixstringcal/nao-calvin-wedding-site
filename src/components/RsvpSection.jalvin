@@ -1,6 +1,7 @@
 import @jalvin/runtime.*
 import @jalvin/ui.Card
 import @jalvin/ui.Column
+import @jalvin/ui.Row
 import @jalvin/ui.Text
 import @jalvin/ui.Input
 import @jalvin/ui.TextArea
@@ -8,87 +9,114 @@ import @jalvin/ui.Checkbox
 import @jalvin/ui.Button
 import @jalvin/ui.Modifier
 import @jalvin/ui.TextStyle
-import src.viewmodels.WeddingViewModel.WeddingViewModel
+import @jalvin/ui.Color
+import src.models.WeddingData.AdditionalGuestInput
 
-component fun RsvpSection(vm: WeddingViewModel) {
-    val fullName = collectAsState(vm.fullName)
-    val email = collectAsState(vm.email)
-    val guestCount = collectAsState(vm.guestCount)
-    val attending = collectAsState(vm.attending)
-    val plusOne = collectAsState(vm.plusOne)
-    val dietaryNotes = collectAsState(vm.dietaryNotes)
-    val note = collectAsState(vm.note)
-    val isSubmitting = collectAsState(vm.isSubmitting)
-    val statusText = collectAsState(vm.statusText)
-    val statusColor = collectAsState(vm.statusColor)
-
+component fun RsvpSection(
+    fullName: String,
+    email: String,
+    guestCount: String = "1",
+    additionalGuestNames: List<AdditionalGuestInput> = listOf(),
+    attending: Boolean,
+    plusOne: Boolean,
+    dietaryNotes: String,
+    note: String,
+    isSubmitting: Boolean,
+    statusText: String,
+    statusColor: Color,
+    onFullNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onGuestCountChange: (String) -> Unit,
+    onAddAdditionalGuestName: () -> Unit,
+    onAdditionalGuestNameChange: (String, String) -> Unit,
+    onRemoveAdditionalGuestName: (String) -> Unit,
+    onAttendingChange: (Boolean) -> Unit,
+    onPlusOneChange: (Boolean) -> Unit,
+    onDietaryNotesChange: (String) -> Unit,
+    onNoteChange: (String) -> Unit,
+    onSubmit: () -> Unit,
+) {
     return Card(modifier = Modifier.fillMaxWidth(), elevation = 2) {
         Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 14) {
             Text(text = "RSVP", style = TextStyle.headlineMedium)
             Text(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", style = TextStyle.bodyLarge)
 
             Input(
-                value = fullName.value,
-                onValueChange = { v -> vm.updateFullName(v) },
+                value = fullName,
+                onValueChange = { v -> onFullNameChange(v) },
                 label = "Full name",
                 placeholder = "Lorem ipsum",
             )
 
             Input(
-                value = email.value,
-                onValueChange = { v -> vm.updateEmail(v) },
+                value = email,
+                onValueChange = { v -> onEmailChange(v) },
                 label = "Email",
                 placeholder = "Lorem ipsum",
                 type = "email",
             )
 
             Input(
-                value = guestCount.value,
-                onValueChange = { v -> vm.updateGuestCount(v) },
+                value = guestCount,
+                onValueChange = { v -> onGuestCountChange(v) },
                 label = "Total guests",
                 placeholder = "Lorem ipsum",
             )
 
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = "spaceBetween", verticalAlignment = "center") {
+                Text(text = "Names of additional guests", style = TextStyle.titleMedium)
+                Button(text = "+", variant = "outlined", onClick = onAddAdditionalGuestName)
+            }
+
+            for (guest in additionalGuestNames) {
+                Row(modifier = Modifier.fillMaxWidth(), spacing = 8, verticalAlignment = "end") {
+                    Input(
+                        value = guest.name,
+                        onValueChange = { v -> onAdditionalGuestNameChange(guest.id, v) },
+                        label = "Guest name",
+                        placeholder = "Full name",
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Button(text = "x", variant = "text", onClick = { onRemoveAdditionalGuestName(guest.id) })
+                }
+            }
+
             Checkbox(
-                checked = attending.value,
-                onCheckedChange = { v -> vm.updateAttending(v) },
+                checked = attending,
+                onCheckedChange = { v -> onAttendingChange(v) },
                 label = "I / we can attend",
             )
 
             Checkbox(
-                checked = plusOne.value,
-                onCheckedChange = { v -> vm.updatePlusOne(v) },
+                checked = plusOne,
+                onCheckedChange = { v -> onPlusOneChange(v) },
                 label = "I need a plus one",
             )
 
             TextArea(
-                value = dietaryNotes.value,
-                onValueChange = { v -> vm.updateDietaryNotes(v) },
+                value = dietaryNotes,
+                onValueChange = { v -> onDietaryNotesChange(v) },
                 label = "Dietary needs",
                 placeholder = "Lorem ipsum dolor sit amet",
                 rows = 3,
             )
 
             TextArea(
-                value = note.value,
-                onValueChange = { v -> vm.updateNote(v) },
+                value = note,
+                onValueChange = { v -> onNoteChange(v) },
                 label = "Message for the couple",
                 placeholder = "Lorem ipsum dolor sit amet",
                 rows = 4,
             )
 
             Button(
-                text = if (isSubmitting.value) "Sending..." else "Submit RSVP",
-                enabled = !isSubmitting.value,
+                text = if (isSubmitting) "Sending..." else "Submit RSVP",
+                enabled = !isSubmitting,
                 variant = "filled",
-                onClick = {
-                    launch {
-                        vm.submit()
-                    }
-                },
+                onClick = onSubmit,
             )
 
-            Text(text = statusText.value, style = TextStyle.bodyMedium, color = statusColor.value)
+            Text(text = statusText, style = TextStyle.bodyMedium, color = statusColor)
         }
     }
 }

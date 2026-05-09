@@ -4,7 +4,8 @@ import @jalvin/ui.Column
 import @jalvin/ui.Modifier
 import @jalvin/ui.Box
 import src.models.WeddingData.COUPLE_NAMES
-import src.viewmodels.WeddingViewModel.WeddingViewModel
+import src.models.WeddingData.AdditionalGuestInput
+import src.viewmodels.RsvpViewModel.RsvpViewModel
 import src.components.ContentSections.WeddingHeader
 import src.components.ContentSections.WelcomePage
 import src.components.ContentSections.DetailsPage
@@ -12,24 +13,75 @@ import src.components.ContentSections.GalleryPage
 import src.components.ContentSections.RegistryPage
 import src.components.RsvpSection.RsvpSection
 
-val weddingViewModel = WeddingViewModel()
+val rsvpViewModel = RsvpViewModel()
 
 fun main() {
     println("Wedding app loaded")
 }
 
-component fun CurrentPageBody(page: String) {
+component fun CurrentPageBody(
+    page: String,
+    fullName: String,
+    email: String,
+    guestCount: String,
+    additionalGuestNames: List<AdditionalGuestInput> = listOf(),
+    attending: Boolean,
+    plusOne: Boolean,
+    dietaryNotes: String,
+    note: String,
+    isSubmitting: Boolean,
+    statusText: String,
+    statusColor: Color,
+) {
     when (page) {
         "welcome" -> WelcomePage()
         "details" -> DetailsPage()
         "gallery" -> GalleryPage()
         "registry" -> RegistryPage()
-        else -> RsvpSection(vm = weddingViewModel)
+        else -> RsvpSection(
+            fullName = fullName,
+            email = email,
+            guestCount = guestCount,
+            additionalGuestNames = additionalGuestNames,
+            attending = attending,
+            plusOne = plusOne,
+            dietaryNotes = dietaryNotes,
+            note = note,
+            isSubmitting = isSubmitting,
+            statusText = statusText,
+            statusColor = statusColor,
+            onFullNameChange = { v -> rsvpViewModel.updateFullName(v) },
+            onEmailChange = { v -> rsvpViewModel.updateEmail(v) },
+            onGuestCountChange = { v -> rsvpViewModel.updateGuestCount(v) },
+            onAddAdditionalGuestName = { rsvpViewModel.addAdditionalGuestNameInput() },
+            onAdditionalGuestNameChange = { id, value -> rsvpViewModel.updateAdditionalGuestNameInput(id, value) },
+            onRemoveAdditionalGuestName = { id -> rsvpViewModel.removeAdditionalGuestNameInput(id) },
+            onAttendingChange = { v -> rsvpViewModel.updateAttending(v) },
+            onPlusOneChange = { v -> rsvpViewModel.updatePlusOne(v) },
+            onDietaryNotesChange = { v -> rsvpViewModel.updateDietaryNotes(v) },
+            onNoteChange = { v -> rsvpViewModel.updateNote(v) },
+            onSubmit = {
+                launch {
+                    rsvpViewModel.submit()
+                }
+            },
+        )
     }
 }
 
 component fun WeddingApp() {
     val currentPage = mutableStateOf("welcome")
+    val fullName: String = collectAsState(rsvpViewModel.fullName)
+    val email: String = collectAsState(rsvpViewModel.email)
+    val guestCount: String = collectAsState(rsvpViewModel.guestCount)
+    val additionalGuestNames: List<AdditionalGuestInput> = collectAsState(rsvpViewModel.additionalGuestNames)
+    val attending: Boolean = collectAsState(rsvpViewModel.attending)
+    val plusOne: Boolean = collectAsState(rsvpViewModel.plusOne)
+    val dietaryNotes: String = collectAsState(rsvpViewModel.dietaryNotes)
+    val note: String = collectAsState(rsvpViewModel.note)
+    val isSubmitting: Boolean = collectAsState(rsvpViewModel.isSubmitting)
+    val statusText: String = collectAsState(rsvpViewModel.statusText)
+    val statusColor: Color = collectAsState(rsvpViewModel.statusColor)
 
     return Scaffold(
         modifier = Modifier.fillMaxSize().background("#fffaf5"),
@@ -37,7 +89,20 @@ component fun WeddingApp() {
     ) {
         Box(modifier = Modifier.fillMaxWidth().padding(20)) {
             Column(modifier = Modifier.fillMaxWidth(), spacing = 18) {
-                CurrentPageBody(page = currentPage.value)
+                CurrentPageBody(
+                    page = currentPage.value,
+                    fullName = fullName,
+                    email = email,
+                    guestCount = guestCount,
+                    additionalGuestNames = additionalGuestNames,
+                    attending = attending,
+                    plusOne = plusOne,
+                    dietaryNotes = dietaryNotes,
+                    note = note,
+                    isSubmitting = isSubmitting,
+                    statusText = statusText,
+                    statusColor = statusColor,
+                )
             }
         }
     }
