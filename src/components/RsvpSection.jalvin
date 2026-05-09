@@ -16,7 +16,6 @@ component fun RsvpSection(
     fullName: String,
     email: String,
     additionalGuestNames: List<AdditionalGuestInput> = listOf(),
-    attending: Boolean,
     dietaryNotes: String,
     note: String,
     isSubmitting: Boolean,
@@ -27,7 +26,6 @@ component fun RsvpSection(
     onAddAdditionalGuestName: () -> Unit,
     onAdditionalGuestNameChange: (String, String) -> Unit,
     onRemoveAdditionalGuestName: (String) -> Unit,
-    onAttendingChange: (Boolean) -> Unit,
     onDietaryNotesChange: (String) -> Unit,
     onNoteChange: (String) -> Unit,
     onSubmit: () -> Unit,
@@ -44,9 +42,9 @@ component fun RsvpSection(
                 modifier = Modifier.Default.fontFamily("Georgia, 'Times New Roman', serif"),
                 color = "#4e3526"
             )
-            
+
             Text(
-                text = "Please kindly respond by August 15, 2026. We look forward to celebrating with you!",
+                text = "Please kindly respond by <date>. We look forward to celebrating with you!",
                 style = TextStyle.bodyLarge,
                 color = "#7a6a5d"
             )
@@ -76,7 +74,7 @@ component fun RsvpSection(
                     style = TextStyle.titleMedium,
                     color = "#5c3b24"
                 )
-                
+
                 for (guest in additionalGuestNames) {
                     Row(modifier = Modifier.fillMaxWidth(), spacing = 12, verticalAlignment = "center") {
                         Input(
@@ -85,12 +83,19 @@ component fun RsvpSection(
                             placeholder = "Guest full name",
                             modifier = Modifier.fillMaxWidth()
                         )
-                        Button(
-                            text = "Remove",
-                            variant = "text",
+                        Card(
                             onClick = { onRemoveAdditionalGuestName(guest.id) },
-                            color = Color.Error
-                        )
+                            modifier = Modifier.background("transparent").padding(4),
+                            elevation = 0,
+                            outlined = false
+                        ) {
+                            Text(
+                                text = "×",
+                                color = "#b04848",
+                                style = TextStyle.headlineSmall,
+                                modifier = Modifier.Default.lineHeight(1)
+                            )
+                        }
                     }
                 }
 
@@ -113,13 +118,6 @@ component fun RsvpSection(
                 }
             }
 
-            Checkbox(
-                checked = attending,
-                onCheckedChange = { v -> onAttendingChange(v) },
-                label = "I / we will be attending",
-                color = "#5c3b24"
-            )
-
             TextArea(
                 value = dietaryNotes,
                 onValueChange = { v -> onDietaryNotesChange(v) },
@@ -139,13 +137,22 @@ component fun RsvpSection(
             )
 
             Button(
-                text = if (isSubmitting) "Sending..." else "Submit RSVP",
-                enabled = !isSubmitting,
-                variant = "filled",
                 onClick = onSubmit,
-                modifier = Modifier.fillMaxWidth().height(48),
-                color = "#5c3b24"
-            )
+                variant = "text",
+                enabled = !isSubmitting,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48)
+                    .border("1px solid #dac8b8")
+                    .borderRadius(24)
+            ) {
+                Text(
+                    text = if (isSubmitting) "Sending..." else "Submit RSVP",
+                    style = TextStyle.bodyLarge,
+                    modifier = Modifier.Default.fontFamily("Georgia, serif"),
+                    color = "#4e3526"
+                )
+            }
 
             Text(
                 text = statusText,

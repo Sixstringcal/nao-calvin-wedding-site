@@ -40,7 +40,6 @@ component fun CurrentPageBody(
             fullName = fullName,
             email = email,
             additionalGuestNames = additionalGuestNames,
-            attending = attending,
             dietaryNotes = dietaryNotes,
             note = note,
             isSubmitting = isSubmitting,
@@ -51,7 +50,6 @@ component fun CurrentPageBody(
             onAddAdditionalGuestName = { rsvpViewModel.addAdditionalGuestNameInput() },
             onAdditionalGuestNameChange = { id, value -> rsvpViewModel.updateAdditionalGuestNameInput(id, value) },
             onRemoveAdditionalGuestName = { id -> rsvpViewModel.removeAdditionalGuestNameInput(id) },
-            onAttendingChange = { v -> rsvpViewModel.updateAttending(v) },
             onDietaryNotesChange = { v -> rsvpViewModel.updateDietaryNotes(v) },
             onNoteChange = { v -> rsvpViewModel.updateNote(v) },
             onSubmit = {

@@ -16,7 +16,7 @@ class RsvpViewModel : ViewModel() {
     private var guestInputIdCounter: Int = 0
 
     val isSubmitting = MutableStateFlow(false)
-    val statusText = MutableStateFlow("Please RSVP by August 15, 2026")
+    val statusText = MutableStateFlow("Please RSVP by <date>.")
     val statusColor = MutableStateFlow(Color.OnSurfaceVariant)
 
     fun updateFullName(value: String) { this.fullName.value = value }
