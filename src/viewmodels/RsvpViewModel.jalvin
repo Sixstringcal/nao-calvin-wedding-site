@@ -85,7 +85,6 @@ class RsvpViewModel : ViewModel() {
                     guestCount = totalGuestCount,
                     additionalGuestNames = parsedAdditionalGuestNames,
                     attending = this.attending.value,
-                    needsPlusOne = false, // No longer asked
                     dietaryNotes = this.dietaryNotes.value,
                     message = this.note.value,
                     submittedAt = Date().toISOString()

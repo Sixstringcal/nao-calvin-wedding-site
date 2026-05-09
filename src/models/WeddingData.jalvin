@@ -12,7 +12,6 @@ data class RsvpPayload(
     val guestCount: Int,
     val additionalGuestNames: List<String>,
     val attending: Boolean,
-    val needsPlusOne: Boolean,
     val dietaryNotes: String,
     val message: String,
     val submittedAt: String
