@@ -10,13 +10,13 @@
     "build:jalvin": "jalvin build"
   },
   "dependencies": {
-    "@jalvin/runtime": "2.0.36",
-    "@jalvin/ui": "2.0.36"
+    "@jalvin/runtime": "2.0.38",
+    "@jalvin/ui": "2.0.38"
   },
   "devDependencies": {
-    "@jalvin/cli": "2.0.36",
-    "@jalvin/compiler": "2.0.36",
-    "@jalvin/vite-plugin": "2.0.36",
+    "@jalvin/cli": "2.0.38",
+    "@jalvin/compiler": "2.0.38",
+    "@jalvin/vite-plugin": "2.0.38",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^4.3.4",

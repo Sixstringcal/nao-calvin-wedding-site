@@ -10,8 +10,85 @@ import @jalvin/ui.Button
 import @jalvin/ui.Modifier
 import @jalvin/ui.TextStyle
 import @jalvin/ui.Color
+import @jalvin/ui.useMutableInteractionSource
+import @jalvin/ui.useIsHovered
 import src.models.WeddingData.AdditionalGuestInput
 import src.constants.strings.Res
+
+component fun RemoveGuestButton(onClick: () -> Unit) {
+    val interactionSource = useMutableInteractionSource()
+    val isHovered = useIsHovered(interactionSource)
+
+    return Card(
+        onClick = onClick,
+        modifier = Modifier
+            .background(if (isHovered) "#fee2e2" else "transparent")
+            .padding(4)
+            .hoverable(interactionSource)
+            .cursor("pointer"),
+        elevation = 0,
+        outlined = false
+    ) {
+        Text(
+            text = "×",
+            color = if (isHovered) "#991b1b" else "#b04848",
+            style = TextStyle.headlineSmall,
+            modifier = Modifier.Default.lineHeight(1)
+        )
+    }
+}
+
+component fun AddGuestButton(onClick: () -> Unit) {
+    val interactionSource = useMutableInteractionSource()
+    val isHovered = useIsHovered(interactionSource)
+
+    return Button(
+        onClick = onClick,
+        variant = "text",
+        modifier = Modifier
+            .width("fit-content")
+            .border(if (isHovered) "1px solid #b98a62" else "1px solid #dac8b8")
+            .background(if (isHovered) "#f8f1ea" else "transparent")
+            .borderRadius(24)
+            .padding("8px 24px")
+            .marginTop(8)
+            .hoverable(interactionSource)
+            .cursor("pointer")
+    ) {
+        Text(
+            text = Res.RSVP_ADD_GUEST_BUTTON,
+            style = TextStyle.bodyLarge,
+            modifier = Modifier.Default.fontFamily("Georgia, serif"),
+            color = if (isHovered) "#5c3b24" else "#4e3526"
+        )
+    }
+}
+
+component fun SubmitRsvpButton(onClick: () -> Unit, isSubmitting: Boolean) {
+    val interactionSource = useMutableInteractionSource()
+    val isHovered = useIsHovered(interactionSource)
+
+    return Button(
+        onClick = onClick,
+        variant = "text",
+        enabled = !isSubmitting,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48)
+            .border(if (isHovered && !isSubmitting) "1px solid #b98a62" else "1px solid #dac8b8")
+            .background(if (isHovered && !isSubmitting) "#f8f1ea" else "transparent")
+            .borderRadius(24)
+            .hoverable(interactionSource)
+            .cursor(if (isSubmitting) "default" else "pointer")
+    ) {
+        Text(
+            text = if (isSubmitting) Res.RSVP_SENDING else Res.RSVP_SUBMIT_BUTTON,
+            style = TextStyle.bodyLarge,
+            modifier = Modifier.Default.fontFamily("Georgia, serif"),
+            color = if (isHovered && !isSubmitting) "#5c3b24" else "#4e3526"
+        )
+    }
+}
 
 component fun RsvpSection(
     fullName: String,
@@ -84,39 +161,11 @@ component fun RsvpSection(
                             placeholder = Res.RSVP_GUEST_NAME_PLACEHOLDER,
                             modifier = Modifier.fillMaxWidth()
                         )
-                        Card(
-                            onClick = { onRemoveAdditionalGuestName(guest.id) },
-                            modifier = Modifier.background("transparent").padding(4),
-                            elevation = 0,
-                            outlined = false
-                        ) {
-                            Text(
-                                text = "×",
-                                color = "#b04848",
-                                style = TextStyle.headlineSmall,
-                                modifier = Modifier.Default.lineHeight(1)
-                            )
-                        }
+                        RemoveGuestButton(onClick = { onRemoveAdditionalGuestName(guest.id) })
                     }
                 }
 
-                Button(
-                    onClick = onAddAdditionalGuestName,
-                    variant = "text",
-                    modifier = Modifier
-                        .width("fit-content")
-                        .border("1px solid #dac8b8")
-                        .borderRadius(24)
-                        .padding("8px 24px")
-                        .marginTop(8)
-                ) {
-                    Text(
-                        text = Res.RSVP_ADD_GUEST_BUTTON,
-                        style = TextStyle.bodyLarge,
-                        modifier = Modifier.Default.fontFamily("Georgia, serif"),
-                        color = "#4e3526"
-                    )
-                }
+                AddGuestButton(onClick = onAddAdditionalGuestName)
             }
 
             TextArea(
@@ -137,23 +186,7 @@ component fun RsvpSection(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Button(
-                onClick = onSubmit,
-                variant = "text",
-                enabled = !isSubmitting,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48)
-                    .border("1px solid #dac8b8")
-                    .borderRadius(24)
-            ) {
-                Text(
-                    text = if (isSubmitting) Res.RSVP_SENDING else Res.RSVP_SUBMIT_BUTTON,
-                    style = TextStyle.bodyLarge,
-                    modifier = Modifier.Default.fontFamily("Georgia, serif"),
-                    color = "#4e3526"
-                )
-            }
+            SubmitRsvpButton(onClick = onSubmit, isSubmitting = isSubmitting)
 
             Text(
                 text = statusText,

@@ -3,6 +3,7 @@ import @jalvin/ui.Scaffold
 import @jalvin/ui.Column
 import @jalvin/ui.Modifier
 import @jalvin/ui.Box
+import @jalvin/ui.Color
 import src.models.WeddingData.COUPLE_NAMES
 import src.models.WeddingData.AdditionalGuestInput
 import src.viewmodels.RsvpViewModel.RsvpViewModel
@@ -30,7 +31,7 @@ component fun CurrentPageBody(
     statusText: String,
     statusColor: Color,
 ) {
-    when (page) {
+    return when (page) {
         "welcome" -> WelcomePage()
         "details" -> DetailsPage()
         "registry" -> RegistryPage()
@@ -58,6 +59,7 @@ component fun CurrentPageBody(
         )
     }
 }
+
 
 component fun WeddingApp() {
     val currentPage = mutableStateOf("welcome")
