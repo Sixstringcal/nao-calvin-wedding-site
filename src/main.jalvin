@@ -62,7 +62,7 @@ component fun CurrentPageBody(
 
 
 component fun WeddingApp() {
-    val currentPage = mutableStateOf("welcome")
+    val currentPage = rememberMutableStateOf("welcome")
     val fullName: String = collectAsState(rsvpViewModel.fullName)
     val email: String = collectAsState(rsvpViewModel.email)
     val additionalGuestNames: List<AdditionalGuestInput> = collectAsState(rsvpViewModel.additionalGuestNames)

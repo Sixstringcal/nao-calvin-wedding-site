@@ -5,8 +5,11 @@ version = 1.0.0
 rootDir = src
 outDir = dist
 
-# Enable JSX / React
-jsx = true
-
 # Enable TypeScript type annotations in emitted code
 emitTypes = false
+
+# UI / Vite options for 'jalvin dev'
+entryFile = src/main.jalvin
+entryComponent = WeddingApp
+title = Nao & Calvin Wedding
+port = 3001
