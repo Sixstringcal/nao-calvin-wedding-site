@@ -9,13 +9,13 @@
     "preview": "vite preview --host 127.0.0.1 --port 3001"
   },
   "dependencies": {
-    "@jalvin/runtime": "^2.0.49",
-    "@jalvin/ui": "^2.0.49"
+    "@jalvin/runtime": "^2.0.50",
+    "@jalvin/ui": "^2.0.50"
   },
   "devDependencies": {
-    "@jalvin/cli": "^2.0.49",
-    "@jalvin/compiler": "^2.0.49",
-    "@jalvin/vite-plugin": "^2.0.49",
+    "@jalvin/cli": "^2.0.50",
+    "@jalvin/compiler": "^2.0.50",
+    "@jalvin/vite-plugin": "^2.0.50",
     "firebase": "^12.13.0",
     "vite": "^5.4.19"
   }
