@@ -33,13 +33,15 @@ class RsvpViewModel : ViewModel() {
     }
 
     fun updateAdditionalGuestNameInput(id: String, value: String) {
-        this.additionalGuestNames.value = this.additionalGuestNames.value.map { guest ->
+        var updated: List<AdditionalGuestInput> = listOf()
+        for (guest in this.additionalGuestNames.value) {
             if (guest.id == id) {
-                AdditionalGuestInput(id = guest.id, name = value)
+                updated = updated.concat(listOf(AdditionalGuestInput(id = guest.id, name = value)))
             } else {
-                guest
+                updated = updated.concat(listOf(guest))
             }
         }
+        this.additionalGuestNames.value = updated
     }
 
     fun removeAdditionalGuestNameInput(id: String) {

@@ -4,12 +4,13 @@ import @jalvin/ui.Row
 import @jalvin/ui.Text
 import @jalvin/ui.Modifier
 import @jalvin/ui.TextStyle
-import @jalvin/ui.Card
 import @jalvin/ui.useMutableInteractionSource
 import @jalvin/ui.useIsHovered
 import src.models.WeddingData.COUPLE_NAMES
 import src.models.WeddingData.WEDDING_DATE
 import src.constants.strings.Res
+
+import @jalvin/ui.Card
 
 component fun NavChip(label: String, pageKey: String, selectedPage: String, onSelect: (String) -> Unit) {
     val interactionSource = useMutableInteractionSource()
@@ -18,29 +19,38 @@ component fun NavChip(label: String, pageKey: String, selectedPage: String, onSe
 
     return Card(
         modifier = Modifier
-            .padding(0)
+            .padding("4px 14px")
             .background("transparent")
             .border("none")
             .borderRadius(0)
             .boxShadow("none")
-            .hoverable(interactionSource)
-            .cursor("pointer"),
+            .cursor("pointer")
+            .hoverable(interactionSource),
         elevation = 0,
         outlined = false,
-        onClick = { onSelect(pageKey) },
+        onClick = { onSelect(pageKey) }
     ) {
-        Column(modifier = Modifier.padding("10px 8px 4px 8px"), spacing = 8, horizontalAlignment = "center") {
+        Column(
+            modifier = Modifier.Default,
+            spacing = 6,
+            horizontalAlignment = "center"
+        ) {
             Text(
                 text = label,
                 style = TextStyle.labelLarge,
-                modifier = Modifier.Default.letterSpacing("0.08em"),
-                color = if (isSelected) "#5c3b24" else if (isHovered) "#4e3526" else "#7a6a5d",
+                modifier = Modifier.Default
+                    .fontFamily("'Montserrat', -apple-system, sans-serif")
+                    .letterSpacing("0.16em")
+                    .fontSize(12)
+                    .fontWeight(if (isSelected) 600 else 400),
+                color = if (isSelected) "#34261e" else if (isHovered) "#5c4333" else "#857365",
             )
             Box(
                 modifier = Modifier
-                    .width(36)
-                    .height("2px")
-                    .background(if (isSelected) "#b98a62" else if (isHovered) "#dac8b8" else "transparent"),
+                    .width(if (isSelected) 28 else if (isHovered) 16 else 0)
+                    .height("1.5px")
+                    .background(if (isSelected) "#b28a64" else if (isHovered) "#d8c3b0" else "transparent")
+                    .transition("all 0.25s ease")
             ) {}
         }
     }
@@ -48,8 +58,8 @@ component fun NavChip(label: String, pageKey: String, selectedPage: String, onSe
 
 component fun NavBar(selectedPage: String, onSelect: (String) -> Unit) {
     return Row(
-        modifier = Modifier.fillMaxWidth(),
-        spacing = 20,
+        modifier = Modifier.fillMaxWidth().marginTop(12),
+        spacing = 4,
         wrap = true,
         horizontalArrangement = "center",
     ) {
@@ -61,35 +71,60 @@ component fun NavBar(selectedPage: String, onSelect: (String) -> Unit) {
 }
 
 component fun WeddingHeader(selectedPage: String, onSelect: (String) -> Unit) {
-    return Box(modifier = Modifier.fillMaxWidth().background("#f8f1ea")) {
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background("#faf6f0")
+            .border("none")
+            .boxShadow("0 1px 0 rgba(216, 199, 181, 0.45)")
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .maxWidth(980)
+                .maxWidth(960)
                 .margin("0 auto")
-                .padding("28px 32px 20px 32px"),
-            spacing = 8,
+                .padding("36px 24px 20px 24px"),
+            spacing = 10,
             horizontalAlignment = "center",
         ) {
             Text(
+                text = "N  ✦  C",
+                style = TextStyle.titleSmall,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .letterSpacing("0.35em")
+                    .textAlign("center"),
+                color = "#a68260",
+            )
+
+            Text(
                 text = COUPLE_NAMES,
                 style = TextStyle.displayMedium,
-                modifier = Modifier.Default.fontFamily("Georgia, 'Times New Roman', serif").textAlign("center"),
-                color = "#4e3526",
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .letterSpacing("0.04em")
+                    .textAlign("center"),
+                color = "#2e231c",
             )
-            Text(
-                text = "${WEDDING_DATE}  •  ${Res.HEADER_LOCATION}",
-                style = TextStyle.titleMedium,
-                modifier = Modifier.Default.letterSpacing("0.04em").textAlign("center"),
-                color = "#76685d",
-            )
-            Text(
-                style = TextStyle.bodySmall,
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                modifier = Modifier.Default.textAlign("center"),
-                color = "#8f7d70",
-            )
-            Box(modifier = Modifier.width("120px").height("1px").background("#dac8b8").marginTop(8).marginBottom(2)) {}
+
+            Row(
+                verticalAlignment = "center",
+                spacing = 10
+            ) {
+                Box(modifier = Modifier.width(32).height("1px").background("#dfcebe")) {}
+                Text(
+                    text = "${WEDDING_DATE.toUpperCase()}  •  ${Res.HEADER_LOCATION.toUpperCase()}",
+                    style = TextStyle.titleSmall,
+                    modifier = Modifier.Default
+                        .fontFamily("'Montserrat', -apple-system, sans-serif")
+                        .letterSpacing("0.2em")
+                        .fontSize(11)
+                        .textAlign("center"),
+                    color = "#7d6b5e",
+                )
+                Box(modifier = Modifier.width(32).height("1px").background("#dfcebe")) {}
+            }
+
             NavBar(selectedPage = selectedPage, onSelect = onSelect)
         }
     }

@@ -12,10 +12,74 @@ import src.components.WelcomePage.WelcomePage
 import src.components.DetailsPage.DetailsPage
 import src.components.RegistryPage.RegistryPage
 import src.components.RsvpSection.RsvpSection
+import src.components.WeddingFooter.WeddingFooter
 
 val rsvpViewModel = RsvpViewModel()
 
+fun injectStyles() {
+    try {
+        val doc: Any = document
+        val existing: Any = doc.getElementById("wedding-styles")
+        if (existing == null) {
+            val styleEl: Any = doc.createElement("style")
+            styleEl.id = "wedding-styles"
+            styleEl.textContent = """
+                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+                html, body {
+                    background-color: #faf6f0 !important;
+                    color: #2e231c;
+                    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    scroll-behavior: smooth;
+                    line-height: 1.6;
+                }
+
+                ::selection {
+                    background: #ebdccf;
+                    color: #2b1f17;
+                }
+
+                input, textarea {
+                    font-family: 'Montserrat', -apple-system, sans-serif !important;
+                    background-color: #fdfaf6 !important;
+                    border: 1px solid #ebd9c8 !important;
+                    border-radius: 10px !important;
+                    color: #2e231c !important;
+                    padding: 12px 16px !important;
+                    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease !important;
+                }
+
+                input:focus, textarea:focus {
+                    outline: none !important;
+                    border-color: #a8845e !important;
+                    background-color: #ffffff !important;
+                    box-shadow: 0 0 0 3px rgba(168, 132, 94, 0.15) !important;
+                }
+
+                label {
+                    font-family: 'Montserrat', sans-serif !important;
+                    font-size: 11px !important;
+                    letter-spacing: 0.14em !important;
+                    text-transform: uppercase !important;
+                    color: #8b725d !important;
+                    margin-bottom: 6px !important;
+                    display: block !important;
+                }
+
+                button {
+                    font-family: 'Montserrat', sans-serif !important;
+                    transition: all 0.25s ease !important;
+                }
+            """
+            doc.head.appendChild(styleEl)
+        }
+    } catch (e: Any) {}
+}
+
 fun main() {
+    injectStyles()
     println("Wedding app loaded")
 }
 
@@ -60,9 +124,9 @@ component fun CurrentPageBody(
     }
 }
 
-
 component fun WeddingApp() {
-    val currentPage = rememberMutableStateOf("welcome")
+    injectStyles()
+    val currentPage: Any = rememberMutableStateOf("welcome")
     val fullName: String = collectAsState(rsvpViewModel.fullName)
     val email: String = collectAsState(rsvpViewModel.email)
     val additionalGuestNames: List<AdditionalGuestInput> = collectAsState(rsvpViewModel.additionalGuestNames)
@@ -74,11 +138,22 @@ component fun WeddingApp() {
     val statusColor: Color = collectAsState(rsvpViewModel.statusColor)
 
     return Scaffold(
-        modifier = Modifier.fillMaxSize().background("#fffaf5"),
+        modifier = Modifier.fillMaxSize().background("#faf6f0"),
         topBar = WeddingHeader(selectedPage = currentPage.value, onSelect = { page -> currentPage.value = page }),
     ) {
-        Box(modifier = Modifier.fillMaxWidth().padding(20)) {
-            Column(modifier = Modifier.fillMaxWidth().maxWidth(800).margin("0 auto"), spacing = 18) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding("28px 20px 48px 20px")
+                .background("#faf6f0")
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .maxWidth(980)
+                    .margin("0 auto"),
+                spacing = 24
+            ) {
                 CurrentPageBody(
                     page = currentPage.value,
                     fullName = fullName,
@@ -91,6 +166,8 @@ component fun WeddingApp() {
                     statusText = statusText,
                     statusColor = statusColor,
                 )
+
+                WeddingFooter()
             }
         }
     }

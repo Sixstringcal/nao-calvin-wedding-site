@@ -1,67 +1,310 @@
-import @jalvin/ui.Card
+import @jalvin/ui.Box
 import @jalvin/ui.Column
+import @jalvin/ui.Row
 import @jalvin/ui.Text
+import @jalvin/ui.Image
 import @jalvin/ui.Modifier
 import @jalvin/ui.TextStyle
-import @jalvin/ui.Color
 import src.models.WeddingData.COUPLE_NAMES
 import src.models.WeddingData.WEDDING_DATE
 import src.models.WeddingData.VENUE_NAME
 import src.models.WeddingData.VENUE_ADDRESS
 import src.constants.strings.Res
 
-component fun WelcomeHero() {
-    return Card(modifier = Modifier.fillMaxWidth(), elevation = 2) {
-        Column(modifier = Modifier.fillMaxWidth().padding(40), spacing = 14) {
-            Text(text = Res.LOCATION, style = TextStyle.headlineLarge, color = "#5c3b24")
-            Text(text = "${WEDDING_DATE} at ${VENUE_NAME}", style = TextStyle.bodyLarge, color = "#8a7664")
-            Text(text = VENUE_ADDRESS, style = TextStyle.bodyLarge, color = "#8a7664")
-        }
-    }
-}
-
-component fun IntroNote() {
-    return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
-        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 10) {
-            Text(text = Res.INTRO_TITLE, style = TextStyle.titleLarge)
-            Text(text = Res.INTRO_BODY_1, style = TextStyle.bodyLarge)
-            Text(text = Res.INTRO_BODY_2, style = TextStyle.bodyMedium, color = Color.OnSurfaceVariant)
-        }
-    }
-}
-
-component fun HeroSection() {
-    return Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = 2,
+component fun HeroInvitation() {
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding("24px 16px 40px 16px")
+            .background("transparent")
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(24),
-            spacing = 10,
+            modifier = Modifier.fillMaxWidth().maxWidth(820).margin("0 auto"),
+            spacing = 18,
+            horizontalAlignment = "center"
         ) {
-            Text(text = COUPLE_NAMES, style = TextStyle.displaySmall, color = Color.Primary)
-            Text(text = Res.GETTING_MARRIED_TEXT, style = TextStyle.headlineMedium)
-            Text(text = WEDDING_DATE, style = TextStyle.titleLarge)
-            Text(text = "Ceremony + Reception at ${VENUE_NAME}", style = TextStyle.bodyLarge, color = Color.OnSurfaceVariant)
+            Text(
+                text = Res.CELEBRATION_LABEL,
+                style = TextStyle.labelMedium,
+                modifier = Modifier.Default
+                    .fontFamily("'Montserrat', -apple-system, sans-serif")
+                    .letterSpacing("0.24em")
+                    .fontSize(11)
+                    .textAlign("center"),
+                color = "#9e7e62"
+            )
+
+            Text(
+                text = "Nao & Calvin",
+                style = TextStyle.displayLarge,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .letterSpacing("0.03em")
+                    .fontSize(52)
+                    .lineHeight("1.2")
+                    .textAlign("center"),
+                color = "#2a1e17"
+            )
+
+            Text(
+                text = "Cordially invite you to celebrate their wedding",
+                style = TextStyle.titleMedium,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .fontSize(20)
+                    .letterSpacing("0.04em")
+                    .textAlign("center"),
+                color = "#6f5c4f"
+            )
+
+            Row(
+                verticalAlignment = "center",
+                spacing = 14,
+                modifier = Modifier.margin("8px 0 12px 0")
+            ) {
+                Box(modifier = Modifier.width(60).height("1px").background("#dccbb9")) {}
+                Text(
+                    text = "✦",
+                    style = TextStyle.bodySmall,
+                    color = "#b28a64",
+                    modifier = Modifier.Default.fontSize(12)
+                )
+                Box(modifier = Modifier.width(60).height("1px").background("#dccbb9")) {}
+            }
+
+            // High-End Framed Couple Portrait
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .maxWidth(640)
+                    .padding(12)
+                    .background("#ffffff")
+                    .border("1px solid #ebd9c8")
+                    .borderRadius(16)
+                    .boxShadow("0 20px 40px -15px rgba(60, 45, 35, 0.08)")
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    spacing = 12,
+                    horizontalAlignment = "center"
+                ) {
+                    Image(
+                        src = "photos/nao_and_calvin_shows_ring.jpg",
+                        alt = "Nao and Calvin celebrating their engagement with the ring",
+                        contentScale = "crop",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(420)
+                            .borderRadius(10)
+                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding("8px 12px 4px 12px"),
+                        horizontalArrangement = "spaceBetween",
+                        verticalAlignment = "center",
+                        wrap = true
+                    ) {
+                        Text(
+                            text = "Nao & Calvin  •  Santa Cruz, California",
+                            style = TextStyle.labelSmall,
+                            modifier = Modifier.Default
+                                .fontFamily("'Montserrat', -apple-system, sans-serif")
+                                .letterSpacing("0.14em")
+                                .fontSize(10),
+                            color = "#8b786a"
+                        )
+                        Text(
+                            text = "EST. 2027",
+                            style = TextStyle.labelSmall,
+                            modifier = Modifier.Default
+                                .fontFamily("'Montserrat', -apple-system, sans-serif")
+                                .letterSpacing("0.18em")
+                                .fontSize(10),
+                            color = "#b59475"
+                        )
+                    }
+                }
+            }
+
+            // Date & Venue Details Plaque
+            Column(
+                modifier = Modifier.margin("16px 0 0 0"),
+                spacing = 6,
+                horizontalAlignment = "center"
+            ) {
+                Text(
+                    text = "SUNDAY, ${WEDDING_DATE.toUpperCase()}",
+                    style = TextStyle.titleMedium,
+                    modifier = Modifier.Default
+                        .fontFamily("'Montserrat', -apple-system, sans-serif")
+                        .letterSpacing("0.22em")
+                        .fontSize(13)
+                        .fontWeight(600)
+                        .textAlign("center"),
+                    color = "#3a2c22"
+                )
+                Text(
+                    text = "${VENUE_NAME}  •  ${VENUE_ADDRESS}",
+                    style = TextStyle.bodyMedium,
+                    modifier = Modifier.Default
+                        .fontFamily("'Cormorant Garamond', Georgia, serif")
+                        .fontSize(18)
+                        .letterSpacing("0.02em")
+                        .textAlign("center"),
+                    color = "#6e5d50"
+                )
+            }
+        }
+    }
+}
+
+component fun WelcomeLetter() {
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding("20px 16px 36px 16px")
+            .background("transparent")
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().maxWidth(720).margin("0 auto"),
+            spacing = 16,
+            horizontalAlignment = "center"
+        ) {
+            Text(
+                text = Res.INTRO_TITLE,
+                style = TextStyle.headlineMedium,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .letterSpacing("0.04em")
+                    .textAlign("center"),
+                color = "#32251c"
+            )
+
+            Box(modifier = Modifier.width(40).height("1px").background("#ccb59f").margin("4px 0 10px 0")) {}
+
+            Text(
+                text = Res.INTRO_BODY_1,
+                style = TextStyle.bodyLarge,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .fontSize(19)
+                    .lineHeight("1.75")
+                    .textAlign("center"),
+                color = "#524338"
+            )
+
+            Text(
+                text = Res.INTRO_BODY_2,
+                style = TextStyle.bodyMedium,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .fontSize(18)
+                    .lineHeight("1.7")
+                    .textAlign("center"),
+                color = "#6f5f52"
+            )
+        }
+    }
+}
+
+component fun StoryVignette(number: String, title: String, text: String) {
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(28)
+            .background("#fbf8f3")
+            .border("1px solid #ebd9c8")
+            .borderRadius(14)
+    ) {
+        Column(modifier = Modifier.fillMaxWidth(), spacing = 10) {
+            Row(verticalAlignment = "center", spacing = 10) {
+                Text(
+                    text = number,
+                    style = TextStyle.labelSmall,
+                    modifier = Modifier.Default
+                        .fontFamily("'Cormorant Garamond', Georgia, serif")
+                        .letterSpacing("0.25em")
+                        .fontSize(14),
+                    color = "#b28a64"
+                )
+                Box(modifier = Modifier.width(24).height("1px").background("#d8c5b2")) {}
+                Text(
+                    text = title,
+                    style = TextStyle.titleMedium,
+                    modifier = Modifier.Default
+                        .fontFamily("'Cormorant Garamond', Georgia, serif")
+                        .fontSize(20)
+                        .letterSpacing("0.03em"),
+                    color = "#362920"
+                )
+            }
+
+            Text(
+                text = text,
+                style = TextStyle.bodyMedium,
+                modifier = Modifier.Default
+                    .fontFamily("'Montserrat', -apple-system, sans-serif")
+                    .fontSize(14)
+                    .lineHeight("1.7"),
+                color = "#5e4e42"
+            )
         }
     }
 }
 
 component fun StorySection() {
-    return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
-        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 10) {
-            Text(text = Res.STORY_TITLE, style = TextStyle.titleLarge)
-            Text(text = Res.STORY_BODY_1, style = TextStyle.bodyLarge)
-            Text(text = Res.STORY_BODY_2, style = TextStyle.bodyLarge)
-            Text(text = Res.STORY_BODY_3, style = TextStyle.bodyMedium, color = Color.OnSurfaceVariant)
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding("16px 16px 40px 16px")
+            .background("transparent")
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().maxWidth(760).margin("0 auto"),
+            spacing = 20,
+            horizontalAlignment = "center"
+        ) {
+            Text(
+                text = Res.STORY_TITLE,
+                style = TextStyle.displaySmall,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .letterSpacing("0.05em")
+                    .textAlign("center"),
+                color = "#32251c"
+            )
+
+            Row(verticalAlignment = "center", spacing = 12, modifier = Modifier.marginBottom(8)) {
+                Box(modifier = Modifier.width(36).height("1px").background("#dccbb9")) {}
+                Text(text = "✦", style = TextStyle.bodySmall, color = "#b28a64", modifier = Modifier.Default.fontSize(10))
+                Box(modifier = Modifier.width(36).height("1px").background("#dccbb9")) {}
+            }
+
+            StoryVignette(
+                number = "CHAPTER I",
+                title = "The First Spark",
+                text = Res.STORY_BODY_1
+            )
+
+            StoryVignette(
+                number = "CHAPTER II",
+                title = "The Journey Together",
+                text = Res.STORY_BODY_2
+            )
+
+            StoryVignette(
+                number = "CHAPTER III",
+                title = "The Proposal",
+                text = Res.STORY_BODY_3
+            )
         }
     }
 }
 
 component fun WelcomePage() {
-    return Column(modifier = Modifier.fillMaxWidth(), spacing = 18) {
-        WelcomeHero()
-        IntroNote()
+    return Column(modifier = Modifier.fillMaxWidth(), spacing = 16) {
+        HeroInvitation()
+        WelcomeLetter()
         StorySection()
     }
 }

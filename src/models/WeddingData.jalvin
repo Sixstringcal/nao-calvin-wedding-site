@@ -24,12 +24,15 @@ data class AdditionalGuestInput(
 
 data class ScheduleItem(
     val time: String,
-    val title: String
+    val title: String,
+    val description: String = ""
 )
 
 data class RegistryItem(
     val label: String,
-    val url: String
+    val description: String = "",
+    val url: String = "",
+    val category: String = "Registry"
 )
 
 data class GalleryPhoto(
@@ -39,17 +42,33 @@ data class GalleryPhoto(
 
 fun scheduleItems(): List<ScheduleItem> {
     return listOf(
-        ScheduleItem(time = "3:30 PM", title = Res.SCHEDULE_GUEST_ARRIVAL),
-        ScheduleItem(time = "4:30 PM", title = Res.SCHEDULE_CEREMONY),
-        ScheduleItem(time = "6:00 PM", title = Res.SCHEDULE_DINNER),
+        ScheduleItem(time = "3:30 PM", title = Res.SCHEDULE_GUEST_ARRIVAL, description = "Welcome refreshments & terrace gathering"),
+        ScheduleItem(time = "4:30 PM", title = Res.SCHEDULE_CEREMONY, description = "Vows exchange overlooking the Monterey Bay"),
+        ScheduleItem(time = "5:15 PM", title = Res.SCHEDULE_COCKTAILS, description = "Signature drinks, passed hors d'oeuvres & golden hour photos"),
+        ScheduleItem(time = "6:30 PM", title = Res.SCHEDULE_DINNER, description = "Seated dinner, heartfelt toasts, cake & dancing beneath the trees")
     )
 }
 
 fun registryItems(): List<RegistryItem> {
     return listOf(
-        RegistryItem(label = "Placeholder", url = "https://www.google.com/"),
-        RegistryItem(label = "Placeholder", url = "https://www.google.com/"),
-        RegistryItem(label = "Placeholder", url = "https://www.google.com/")
+        RegistryItem(
+            label = "Honeymoon & Travel Fund",
+            description = "Help us craft lifelong memories on our honeymoon adventure across Japan and beyond.",
+            url = "https://www.zola.com/registry/nao-and-calvin",
+            category = "Experiences & Travel"
+        ),
+        RegistryItem(
+            label = "Crate & Barrel",
+            description = "Timeless entertaining pieces, everyday ceramics, glassware, and cozy home accents.",
+            url = "https://www.crateandbarrel.com",
+            category = "Home & Dining"
+        ),
+        RegistryItem(
+            label = "Williams Sonoma",
+            description = "Heirloom cookware, kitchen essentials, and specialty tools for shared dinner parties.",
+            url = "https://www.williams-sonoma.com",
+            category = "Kitchen & Entertaining"
+        )
     )
 }
 

@@ -1,25 +1,145 @@
-import @jalvin/ui.Card
+import @jalvin/ui.Box
 import @jalvin/ui.Column
 import @jalvin/ui.Row
 import @jalvin/ui.Text
+import @jalvin/ui.Button
 import @jalvin/ui.Modifier
 import @jalvin/ui.TextStyle
-import @jalvin/ui.Color
+import @jalvin/ui.useMutableInteractionSource
+import @jalvin/ui.useIsHovered
+import src.models.WeddingData.RegistryItem
 import src.models.WeddingData.registryItems
 import src.components.SectionShell.SectionShell
 import src.constants.strings.Res
 
-component fun RegistrySection() {
-    return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
-        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 12) {
-            Text(text = Res.REGISTRY_TITLE, style = TextStyle.titleLarge)
-            for (item in registryItems()) {
-                Card(modifier = Modifier.fillMaxWidth(), elevation = 0) {
-                    Row(modifier = Modifier.fillMaxWidth().padding(16), horizontalArrangement = "spaceBetween", wrap = true) {
-                        Text(text = item.label, style = TextStyle.titleMedium)
-                        Text(text = item.url, style = TextStyle.bodyMedium, color = Color.Primary)
-                    }
+component fun RegistryCard(item: RegistryItem) {
+    val interactionSource = useMutableInteractionSource()
+    val isHovered = useIsHovered(interactionSource)
+
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(28)
+            .background("#ffffff")
+            .border("1px solid #ebd9c8")
+            .borderRadius(14)
+            .boxShadow("0 10px 25px -10px rgba(60, 45, 35, 0.05)")
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            spacing = 14
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = "spaceBetween",
+                verticalAlignment = "center",
+                wrap = true
+            ) {
+                Text(
+                    text = item.category.toUpperCase(),
+                    style = TextStyle.labelSmall,
+                    modifier = Modifier.Default
+                        .fontFamily("'Montserrat', -apple-system, sans-serif")
+                        .letterSpacing("0.2em")
+                        .fontSize(10),
+                    color = "#9e7e62"
+                )
+
+                Text(
+                    text = "✦",
+                    style = TextStyle.bodySmall,
+                    color = "#cfb8a2",
+                    modifier = Modifier.Default.fontSize(10)
+                )
+            }
+
+            Text(
+                text = item.label,
+                style = TextStyle.titleLarge,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .fontSize(24)
+                    .letterSpacing("0.02em"),
+                color = "#2d2017"
+            )
+
+            if (item.description.length > 0) {
+                Text(
+                    text = item.description,
+                    style = TextStyle.bodyMedium,
+                    modifier = Modifier.Default
+                        .fontFamily("'Montserrat', -apple-system, sans-serif")
+                        .fontSize(13)
+                        .lineHeight("1.65"),
+                    color = "#665447"
+                )
+            }
+
+            Box(modifier = Modifier.fillMaxWidth().marginTop(6)) {
+                Button(
+                    onClick = {
+                        try {
+                            window.open(item.url, "_blank")
+                        } catch (e: Any) {}
+                    },
+                    variant = "text",
+                    modifier = Modifier
+                        .border(if (isHovered) "1px solid #8e6844" else "1px solid #c9b49e")
+                        .background(if (isHovered) "#f4ede4" else "#faf5ed")
+                        .borderRadius(24)
+                        .padding("10px 24px")
+                        .hoverable(interactionSource)
+                        .cursor("pointer")
+                ) {
+                    Text(
+                        text = "Visit Registry  ↗",
+                        style = TextStyle.labelLarge,
+                        modifier = Modifier.Default
+                            .fontFamily("'Montserrat', -apple-system, sans-serif")
+                            .letterSpacing("0.14em")
+                            .fontSize(11),
+                        color = if (isHovered) "#322319" else "#5a4537"
+                    )
                 }
+            }
+        }
+    }
+}
+
+component fun RegistrySection() {
+    val items: List<RegistryItem> = registryItems()
+
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding("8px 0 36px 0")
+            .background("transparent")
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().maxWidth(720).margin("0 auto"),
+            spacing = 20,
+            horizontalAlignment = "center"
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding("10px 16px 20px 16px")
+            ) {
+                Text(
+                    text = Res.REGISTRY_INTRO,
+                    style = TextStyle.bodyLarge,
+                    modifier = Modifier.Default
+                        .fontFamily("'Cormorant Garamond', Georgia, serif")
+                        .fontSize(19)
+                        .lineHeight("1.7")
+                        .textAlign("center"),
+                    color = "#5e4e42"
+                )
+            }
+
+            for (i in 0 until items.length) {
+                val item: RegistryItem = items[i]
+                RegistryCard(item = item)
             }
         }
     }

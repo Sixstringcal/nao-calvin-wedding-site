@@ -1,16 +1,58 @@
-import @jalvin/ui.Card
+import @jalvin/ui.Box
 import @jalvin/ui.Column
+import @jalvin/ui.Row
 import @jalvin/ui.Text
 import @jalvin/ui.Modifier
 import @jalvin/ui.TextStyle
-import @jalvin/ui.Color
 
 component fun SectionShell(title: String, subtitle: String? = null) {
-    return Card(modifier = Modifier.fillMaxWidth(), elevation = 1) {
-        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 10) {
-            Text(text = title, style = TextStyle.headlineMedium, color = Color.Primary)
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding("16px 16px 24px 16px")
+            .background("transparent")
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().maxWidth(680).margin("0 auto"),
+            spacing = 10,
+            horizontalAlignment = "center"
+        ) {
+            Text(
+                text = title,
+                style = TextStyle.displaySmall,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .letterSpacing("0.05em")
+                    .textAlign("center"),
+                color = "#362a22"
+            )
+
+            Row(
+                modifier = Modifier.margin("6px 0"),
+                verticalAlignment = "center",
+                spacing = 12
+            ) {
+                Box(modifier = Modifier.width(48).height("1px").background("#dccbb9")) {}
+                Text(
+                    text = "✦",
+                    style = TextStyle.bodySmall,
+                    color = "#b28a64",
+                    modifier = Modifier.Default.fontSize(11)
+                )
+                Box(modifier = Modifier.width(48).height("1px").background("#dccbb9")) {}
+            }
+
             if (subtitle != null) {
-                Text(text = subtitle, style = TextStyle.bodyLarge, color = Color.OnSurfaceVariant)
+                Text(
+                    text = subtitle,
+                    style = TextStyle.bodyLarge,
+                    modifier = Modifier.Default
+                        .fontFamily("'Cormorant Garamond', Georgia, serif")
+                        .fontSize(18)
+                        .lineHeight("1.6")
+                        .textAlign("center"),
+                    color = "#766557"
+                )
             }
         }
     }

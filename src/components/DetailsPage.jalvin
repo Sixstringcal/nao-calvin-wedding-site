@@ -1,11 +1,13 @@
-import @jalvin/ui.Card
+import @jalvin/ui.Box
 import @jalvin/ui.Column
 import @jalvin/ui.Row
 import @jalvin/ui.Text
-import @jalvin/ui.Divider
+import @jalvin/ui.Card
+import @jalvin/ui.Button
 import @jalvin/ui.Modifier
 import @jalvin/ui.TextStyle
-import @jalvin/ui.Color
+import @jalvin/ui.useMutableInteractionSource
+import @jalvin/ui.useIsHovered
 import src.models.WeddingData.WEDDING_DATE
 import src.models.WeddingData.VENUE_NAME
 import src.models.WeddingData.VENUE_ADDRESS
@@ -14,49 +16,290 @@ import src.models.WeddingData.scheduleItems
 import src.components.SectionShell.SectionShell
 import src.constants.strings.Res
 
-component fun DetailsSection() {
-    return Card(modifier = Modifier.fillMaxWidth(), elevation = 1) {
-        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 10) {
-            Text(text = Res.WEDDING_DETAILS_TITLE, style = TextStyle.titleLarge)
-            Divider(modifier = Modifier.fillMaxWidth())
-            Text(text = "${Res.DATE_LABEL}: ${WEDDING_DATE}", style = TextStyle.bodyLarge)
-            Text(text = "${Res.VENUE_LABEL}: ${VENUE_NAME}", style = TextStyle.bodyLarge)
-            Text(text = "${Res.ADDRESS_LABEL}: ${VENUE_ADDRESS}", style = TextStyle.bodyLarge)
-            Text(text = "${Res.DRESS_CODE_LABEL}: ${Res.DRESS_CODE_VALUE}", style = TextStyle.bodyLarge)
-            Text(text = Res.CEREMONY_TIME_INFO, style = TextStyle.bodyLarge)
+component fun VenueCard() {
+    val interactionSource = useMutableInteractionSource()
+    val isHovered = useIsHovered(interactionSource)
+
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(32)
+            .background("#fcfaf6")
+            .border("1px solid #ebd9c8")
+            .borderRadius(16)
+            .boxShadow("0 12px 30px -10px rgba(60, 45, 35, 0.05)")
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            spacing = 16,
+            horizontalAlignment = "center"
+        ) {
+            Text(
+                text = "THE VENUE",
+                style = TextStyle.labelMedium,
+                modifier = Modifier.Default
+                    .fontFamily("'Montserrat', -apple-system, sans-serif")
+                    .letterSpacing("0.24em")
+                    .fontSize(11),
+                color = "#9e7e62"
+            )
+
+            Text(
+                text = VENUE_NAME,
+                style = TextStyle.displaySmall,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .letterSpacing("0.04em")
+                    .textAlign("center"),
+                color = "#2e221b"
+            )
+
+            Text(
+                text = VENUE_ADDRESS,
+                style = TextStyle.bodyLarge,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .fontSize(19)
+                    .textAlign("center"),
+                color = "#635245"
+            )
+
+            Text(
+                text = "A historic coastal estate perched high in the Santa Cruz hills, overlooking the Monterey Bay.",
+                style = TextStyle.bodyMedium,
+                modifier = Modifier.Default
+                    .fontFamily("'Montserrat', -apple-system, sans-serif")
+                    .fontSize(13)
+                    .lineHeight("1.6")
+                    .textAlign("center"),
+                color = "#7b695c"
+            )
+
+            Button(
+                onClick = {
+                    try {
+                        window.open("https://maps.google.com/?q=20+Clubhouse+Rd,+Santa+Cruz,+CA+95060", "_blank")
+                    } catch (e: Any) {}
+                },
+                variant = "text",
+                modifier = Modifier
+                    .border(if (isHovered) "1px solid #8e6844" else "1px solid #c9b49e")
+                    .background(if (isHovered) "#f4ede4" else "#faf5ed")
+                    .borderRadius(24)
+                    .padding("10px 24px")
+                    .marginTop(8)
+                    .hoverable(interactionSource)
+                    .cursor("pointer")
+            ) {
+                Text(
+                    text = "${Res.MAP_LABEL}  ↗",
+                    style = TextStyle.labelLarge,
+                    modifier = Modifier.Default
+                        .fontFamily("'Montserrat', -apple-system, sans-serif")
+                        .letterSpacing("0.14em")
+                        .fontSize(11),
+                    color = if (isHovered) "#322319" else "#5a4537"
+                )
+            }
         }
     }
 }
 
-component fun ScheduleCard(item: ScheduleItem) {
-    return Card(modifier = Modifier.width(220), elevation = 0) {
-        Column(modifier = Modifier.padding(18), spacing = 6) {
-            Text(text = item.time, style = TextStyle.titleMedium, color = Color.Primary)
-            Text(text = item.title, style = TextStyle.bodyLarge)
-        }
-    }
-}
+component fun TimelineItemRow(item: ScheduleItem, isLast: Boolean) {
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding("16px 20px")
+            .background("#ffffff")
+            .border("1px solid #ebd9c8")
+            .borderRadius(12)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            spacing = 20,
+            verticalAlignment = "center",
+            wrap = true
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(100)
+                    .padding("6px 10px")
+                    .background("#fbf7f0")
+                    .border("1px solid #e0d0be")
+                    .borderRadius(20)
+            ) {
+                Text(
+                    text = item.time,
+                    style = TextStyle.labelMedium,
+                    modifier = Modifier.Default
+                        .fontFamily("'Montserrat', -apple-system, sans-serif")
+                        .letterSpacing("0.1em")
+                        .fontSize(12)
+                        .fontWeight(600)
+                        .textAlign("center")
+                        .fillMaxWidth(),
+                    color = "#8f6c4c"
+                )
+            }
 
-component fun ScheduleSection() {
-    return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
-        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 14) {
-            Text(text = Res.DAY_OF_SCHEDULE_TITLE, style = TextStyle.titleLarge)
-            Row(spacing = 10, wrap = true) {
-                for (item in scheduleItems()) {
-                    ScheduleCard(item = item)
+            Column(
+                modifier = Modifier.flex(1),
+                spacing = 4
+            ) {
+                Text(
+                    text = item.title,
+                    style = TextStyle.titleMedium,
+                    modifier = Modifier.Default
+                        .fontFamily("'Cormorant Garamond', Georgia, serif")
+                        .fontSize(20)
+                        .letterSpacing("0.02em"),
+                    color = "#2d2017"
+                )
+                if (item.description.length > 0) {
+                    Text(
+                        text = item.description,
+                        style = TextStyle.bodySmall,
+                        modifier = Modifier.Default
+                            .fontFamily("'Montserrat', -apple-system, sans-serif")
+                            .fontSize(12)
+                            .lineHeight("1.5"),
+                        color = "#776558"
+                    )
                 }
             }
         }
     }
 }
 
-component fun LocationSection() {
-    return Card(modifier = Modifier.fillMaxWidth(), outlined = true) {
-        Column(modifier = Modifier.fillMaxWidth().padding(28), spacing = 8) {
-            Text(text = Res.LOCATION_LABEL, style = TextStyle.titleMedium)
-            Text(text = VENUE_NAME, style = TextStyle.bodyLarge)
-            Text(text = VENUE_ADDRESS, style = TextStyle.bodyLarge)
-            Text(text = "${Res.MAP_LABEL}: https://maps.google.com/?q=${VENUE_ADDRESS}", style = TextStyle.bodySmall, color = Color.OnSurfaceVariant)
+component fun ScheduleSection() {
+    val items: List<ScheduleItem> = scheduleItems()
+
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding("24px 0")
+            .background("transparent")
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().maxWidth(760).margin("0 auto"),
+            spacing = 16,
+            horizontalAlignment = "center"
+        ) {
+            Text(
+                text = Res.DAY_OF_SCHEDULE_TITLE,
+                style = TextStyle.headlineMedium,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .letterSpacing("0.04em")
+                    .textAlign("center"),
+                color = "#32251c"
+            )
+
+            Row(verticalAlignment = "center", spacing = 12, modifier = Modifier.marginBottom(8)) {
+                Box(modifier = Modifier.width(36).height("1px").background("#dccbb9")) {}
+                Text(text = "✦", style = TextStyle.bodySmall, color = "#b28a64", modifier = Modifier.Default.fontSize(10))
+                Box(modifier = Modifier.width(36).height("1px").background("#dccbb9")) {}
+            }
+
+            for (i in 0 until items.length) {
+                val item: ScheduleItem = items[i]
+                TimelineItemRow(item = item, isLast = i == items.length - 1)
+            }
+        }
+    }
+}
+
+component fun GuestInfoSection() {
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding("16px 0 32px 0")
+            .background("transparent")
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().maxWidth(760).margin("0 auto"),
+            spacing = 16,
+            wrap = true
+        ) {
+            // Attire Card
+            Box(
+                modifier = Modifier
+                    .flex(1)
+                    .minWidth(280)
+                    .padding(26)
+                    .background("#fbf8f3")
+                    .border("1px solid #ebd9c8")
+                    .borderRadius(14)
+            ) {
+                Column(spacing = 10) {
+                    Text(
+                        text = Res.DRESS_CODE_LABEL.toUpperCase(),
+                        style = TextStyle.labelSmall,
+                        modifier = Modifier.Default
+                            .fontFamily("'Montserrat', -apple-system, sans-serif")
+                            .letterSpacing("0.2em")
+                            .fontSize(11),
+                        color = "#9e7e62"
+                    )
+                    Text(
+                        text = Res.DRESS_CODE_VALUE,
+                        style = TextStyle.titleLarge,
+                        modifier = Modifier.Default
+                            .fontFamily("'Cormorant Garamond', Georgia, serif")
+                            .fontSize(22),
+                        color = "#2f2219"
+                    )
+                    Text(
+                        text = Res.DRESS_CODE_DESC,
+                        style = TextStyle.bodySmall,
+                        modifier = Modifier.Default
+                            .fontFamily("'Montserrat', -apple-system, sans-serif")
+                            .fontSize(13)
+                            .lineHeight("1.65"),
+                        color = "#665447"
+                    )
+                }
+            }
+
+            // Travel & Parking Card
+            Box(
+                modifier = Modifier
+                    .flex(1)
+                    .minWidth(280)
+                    .padding(26)
+                    .background("#fbf8f3")
+                    .border("1px solid #ebd9c8")
+                    .borderRadius(14)
+            ) {
+                Column(spacing = 10) {
+                    Text(
+                        text = "TRAVEL & PARKING",
+                        style = TextStyle.labelSmall,
+                        modifier = Modifier.Default
+                            .fontFamily("'Montserrat', -apple-system, sans-serif")
+                            .letterSpacing("0.2em")
+                            .fontSize(11),
+                        color = "#9e7e62"
+                    )
+                    Text(
+                        text = "Arrival Information",
+                        style = TextStyle.titleLarge,
+                        modifier = Modifier.Default
+                            .fontFamily("'Cormorant Garamond', Georgia, serif")
+                            .fontSize(22),
+                        color = "#2f2219"
+                    )
+                    Text(
+                        text = "Guest parking is complimentary and available on-site at Hollins House. Rideshare services (Uber & Lyft) are also readily available throughout the Santa Cruz area.",
+                        style = TextStyle.bodySmall,
+                        modifier = Modifier.Default
+                            .fontFamily("'Montserrat', -apple-system, sans-serif")
+                            .fontSize(13)
+                            .lineHeight("1.65"),
+                        color = "#665447"
+                    )
+                }
+            }
         }
     }
 }
@@ -67,8 +310,8 @@ component fun DetailsPage() {
             title = Res.DETAILS_PAGE_TITLE,
             subtitle = Res.DETAILS_PAGE_SUBTITLE,
         )
-        DetailsSection()
+        VenueCard()
         ScheduleSection()
-        LocationSection()
+        GuestInfoSection()
     }
 }

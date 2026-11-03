@@ -1,11 +1,11 @@
 import @jalvin/runtime.*
+import @jalvin/ui.Box
 import @jalvin/ui.Card
 import @jalvin/ui.Column
 import @jalvin/ui.Row
 import @jalvin/ui.Text
 import @jalvin/ui.Input
 import @jalvin/ui.TextArea
-import @jalvin/ui.Checkbox
 import @jalvin/ui.Button
 import @jalvin/ui.Modifier
 import @jalvin/ui.TextStyle
@@ -15,6 +15,7 @@ import @jalvin/ui.useIsHovered
 import src.models.WeddingData.AdditionalGuestInput
 import src.constants.strings.Res
 
+
 component fun RemoveGuestButton(onClick: () -> Unit) {
     val interactionSource = useMutableInteractionSource()
     val isHovered = useIsHovered(interactionSource)
@@ -22,18 +23,23 @@ component fun RemoveGuestButton(onClick: () -> Unit) {
     return Card(
         onClick = onClick,
         modifier = Modifier
-            .background(if (isHovered) "#fee2e2" else "transparent")
-            .padding(4)
+            .background(if (isHovered) "#fae8e8" else "transparent")
+            .border(if (isHovered) "1px solid #e0b0b0" else "1px solid #ecd8d8")
+            .borderRadius(20)
+            .padding("4px 10px")
             .hoverable(interactionSource)
             .cursor("pointer"),
         elevation = 0,
         outlined = false
     ) {
         Text(
-            text = "×",
-            color = if (isHovered) "#991b1b" else "#b04848",
-            style = TextStyle.headlineSmall,
-            modifier = Modifier.Default.lineHeight(1)
+            text = "Remove",
+            color = if (isHovered) "#9e2c2c" else "#b86363",
+            style = TextStyle.labelSmall,
+            modifier = Modifier.Default
+                .fontFamily("'Montserrat', -apple-system, sans-serif")
+                .fontSize(11)
+                .letterSpacing("0.05em")
         )
     }
 }
@@ -47,19 +53,22 @@ component fun AddGuestButton(onClick: () -> Unit) {
         variant = "text",
         modifier = Modifier
             .width("fit-content")
-            .border(if (isHovered) "1px solid #b98a62" else "1px solid #dac8b8")
-            .background(if (isHovered) "#f8f1ea" else "transparent")
+            .border(if (isHovered) "1px solid #8e6844" else "1px solid #c9b49e")
+            .background(if (isHovered) "#f4ede4" else "#faf5ed")
             .borderRadius(24)
-            .padding("8px 24px")
-            .marginTop(8)
+            .padding("8px 22px")
+            .marginTop(6)
             .hoverable(interactionSource)
             .cursor("pointer")
     ) {
         Text(
             text = Res.RSVP_ADD_GUEST_BUTTON,
-            style = TextStyle.bodyLarge,
-            modifier = Modifier.Default.fontFamily("Georgia, serif"),
-            color = if (isHovered) "#5c3b24" else "#4e3526"
+            style = TextStyle.labelLarge,
+            modifier = Modifier.Default
+                .fontFamily("'Montserrat', -apple-system, sans-serif")
+                .letterSpacing("0.1em")
+                .fontSize(11),
+            color = if (isHovered) "#322319" else "#5a4537"
         )
     }
 }
@@ -74,18 +83,23 @@ component fun SubmitRsvpButton(onClick: () -> Unit, isSubmitting: Boolean) {
         enabled = !isSubmitting,
         modifier = Modifier
             .fillMaxWidth()
-            .height(48)
-            .border(if (isHovered && !isSubmitting) "1px solid #b98a62" else "1px solid #dac8b8")
-            .background(if (isHovered && !isSubmitting) "#f8f1ea" else "transparent")
-            .borderRadius(24)
+            .height(52)
+            .border(if (isHovered && !isSubmitting) "1.5px solid #8e6844" else "1px solid #bba38a")
+            .background(if (isHovered && !isSubmitting) "#423227" else "#33261d")
+            .borderRadius(28)
+            .boxShadow(if (isHovered && !isSubmitting) "0 6px 18px rgba(51, 38, 29, 0.25)" else "0 2px 8px rgba(51, 38, 29, 0.12)")
             .hoverable(interactionSource)
             .cursor(if (isSubmitting) "default" else "pointer")
     ) {
         Text(
             text = if (isSubmitting) Res.RSVP_SENDING else Res.RSVP_SUBMIT_BUTTON,
             style = TextStyle.bodyLarge,
-            modifier = Modifier.Default.fontFamily("Georgia, serif"),
-            color = if (isHovered && !isSubmitting) "#5c3b24" else "#4e3526"
+            modifier = Modifier.Default
+                .fontFamily("'Montserrat', -apple-system, sans-serif")
+                .letterSpacing("0.18em")
+                .fontSize(12)
+                .fontWeight(500),
+            color = "#faf6f0"
         )
     }
 }
@@ -108,92 +122,146 @@ component fun RsvpSection(
     onNoteChange: (String) -> Unit,
     onSubmit: () -> Unit,
 ) {
-    return Card(
-        modifier = Modifier.fillMaxWidth().background("#fcf9f6"),
-        elevation = 0,
-        outlined = true
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding("8px 0 36px 0")
+            .background("transparent")
     ) {
-        Column(modifier = Modifier.fillMaxWidth().padding(32), spacing = 20) {
-            Text(
-                text = Res.RSVP_LABEL,
-                style = TextStyle.displaySmall,
-                modifier = Modifier.Default.fontFamily("Georgia, 'Times New Roman', serif"),
-                color = "#4e3526"
-            )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .maxWidth(720)
+                .margin("0 auto")
+                .padding("44px 36px")
+                .background("#ffffff")
+                .border("1px solid #ebd9c8")
+                .borderRadius(20)
+                .boxShadow("0 16px 40px -15px rgba(60, 45, 35, 0.08)")
+        ) {
+            Column(modifier = Modifier.fillMaxWidth(), spacing = 22) {
+                // Header of the RSVP Invitation Card
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    spacing = 8,
+                    horizontalAlignment = "center"
+                ) {
+                    Text(
+                        text = "R.S.V.P.",
+                        style = TextStyle.displaySmall,
+                        modifier = Modifier.Default
+                            .fontFamily("'Cormorant Garamond', Georgia, serif")
+                            .letterSpacing("0.18em")
+                            .textAlign("center"),
+                        color = "#2e2118"
+                    )
 
-            Text(
-                text = Res.RSVP_RESPOND_BY,
-                style = TextStyle.bodyLarge,
-                color = "#7a6a5d"
-            )
-
-            Column(modifier = Modifier.fillMaxWidth(), spacing = 16) {
-                Input(
-                    value = fullName,
-                    onValueChange = { v -> onFullNameChange(v) },
-                    label = Res.RSVP_FULL_NAME_LABEL,
-                    placeholder = Res.RSVP_FULL_NAME_PLACEHOLDER,
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Input(
-                    value = email,
-                    onValueChange = { v -> onEmailChange(v) },
-                    label = Res.RSVP_EMAIL_LABEL,
-                    placeholder = Res.RSVP_EMAIL_PLACEHOLDER,
-                    type = "email",
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-
-            Column(modifier = Modifier.fillMaxWidth(), spacing = 12) {
-                Text(
-                    text = Res.RSVP_ADDITIONAL_GUESTS_TITLE,
-                    style = TextStyle.titleMedium,
-                    color = "#5c3b24"
-                )
-
-                for (guest in additionalGuestNames) {
-                    Row(modifier = Modifier.fillMaxWidth(), spacing = 12, verticalAlignment = "center") {
-                        Input(
-                            value = guest.name,
-                            onValueChange = { v -> onAdditionalGuestNameChange(guest.id, v) },
-                            placeholder = Res.RSVP_GUEST_NAME_PLACEHOLDER,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        RemoveGuestButton(onClick = { onRemoveAdditionalGuestName(guest.id) })
+                    Row(verticalAlignment = "center", spacing = 12, modifier = Modifier.margin("4px 0")) {
+                        Box(modifier = Modifier.width(36).height("1px").background("#dccbb9")) {}
+                        Text(text = "✦", style = TextStyle.bodySmall, color = "#b28a64", modifier = Modifier.Default.fontSize(10))
+                        Box(modifier = Modifier.width(36).height("1px").background("#dccbb9")) {}
                     }
+
+                    Text(
+                        text = Res.RSVP_RESPOND_BY,
+                        style = TextStyle.bodyMedium,
+                        modifier = Modifier.Default
+                            .fontFamily("'Cormorant Garamond', Georgia, serif")
+                            .fontSize(18)
+                            .lineHeight("1.5")
+                            .textAlign("center"),
+                        color = "#6f5d50"
+                    )
                 }
 
-                AddGuestButton(onClick = onAddAdditionalGuestName)
+                // Guest Details Inputs
+                Column(modifier = Modifier.fillMaxWidth(), spacing = 16) {
+                    Input(
+                        value = fullName,
+                        onValueChange = { v -> onFullNameChange(v) },
+                        label = Res.RSVP_FULL_NAME_LABEL,
+                        placeholder = Res.RSVP_FULL_NAME_PLACEHOLDER,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Input(
+                        value = email,
+                        onValueChange = { v -> onEmailChange(v) },
+                        label = Res.RSVP_EMAIL_LABEL,
+                        placeholder = Res.RSVP_EMAIL_PLACEHOLDER,
+                        type = "email",
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                // Additional Guests Section
+                Column(modifier = Modifier.fillMaxWidth(), spacing = 12) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = "spaceBetween",
+                        verticalAlignment = "center"
+                    ) {
+                        Text(
+                            text = Res.RSVP_ADDITIONAL_GUESTS_TITLE.toUpperCase(),
+                            style = TextStyle.labelSmall,
+                            modifier = Modifier.Default
+                                .fontFamily("'Montserrat', -apple-system, sans-serif")
+                                .letterSpacing("0.18em")
+                                .fontSize(11),
+                            color = "#8b725d"
+                        )
+                    }
+
+                    for (guest in additionalGuestNames) {
+                        Row(modifier = Modifier.fillMaxWidth(), spacing = 12, verticalAlignment = "center") {
+                            Input(
+                                value = guest.name,
+                                onValueChange = { v -> onAdditionalGuestNameChange(guest.id, v) },
+                                placeholder = Res.RSVP_GUEST_NAME_PLACEHOLDER,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            RemoveGuestButton(onClick = { onRemoveAdditionalGuestName(guest.id) })
+                        }
+                    }
+
+                    AddGuestButton(onClick = onAddAdditionalGuestName)
+                }
+
+                // Dietary Notes
+                TextArea(
+                    value = dietaryNotes,
+                    onValueChange = { v -> onDietaryNotesChange(v) },
+                    label = Res.RSVP_DIETARY_LABEL,
+                    placeholder = Res.RSVP_DIETARY_PLACEHOLDER,
+                    rows = 3,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                // Message for the Couple
+                TextArea(
+                    value = note,
+                    onValueChange = { v -> onNoteChange(v) },
+                    label = Res.RSVP_MESSAGE_LABEL,
+                    placeholder = Res.RSVP_MESSAGE_PLACEHOLDER,
+                    rows = 4,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                SubmitRsvpButton(onClick = onSubmit, isSubmitting = isSubmitting)
+
+                if (statusText.length > 0) {
+                    Text(
+                        text = statusText,
+                        style = TextStyle.bodyMedium,
+                        color = if (statusColor == Color.OnSurfaceVariant) "#7a6759" else statusColor,
+                        modifier = Modifier.Default
+                            .fontFamily("'Montserrat', -apple-system, sans-serif")
+                            .fontSize(13)
+                            .textAlign("center")
+                            .fillMaxWidth()
+                    )
+                }
             }
-
-            TextArea(
-                value = dietaryNotes,
-                onValueChange = { v -> onDietaryNotesChange(v) },
-                label = Res.RSVP_DIETARY_LABEL,
-                placeholder = Res.RSVP_DIETARY_PLACEHOLDER,
-                rows = 3,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            TextArea(
-                value = note,
-                onValueChange = { v -> onNoteChange(v) },
-                label = Res.RSVP_MESSAGE_LABEL,
-                placeholder = Res.RSVP_MESSAGE_PLACEHOLDER,
-                rows = 4,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            SubmitRsvpButton(onClick = onSubmit, isSubmitting = isSubmitting)
-
-            Text(
-                text = statusText,
-                style = TextStyle.bodyMedium,
-                color = if (statusColor == Color.OnSurfaceVariant) "#8f7d70" else statusColor,
-                modifier = Modifier.Default.textAlign("center").fillMaxWidth()
-            )
         }
     }
 }

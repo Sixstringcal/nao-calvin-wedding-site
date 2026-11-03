@@ -1,0 +1,76 @@
+import @jalvin/ui.Box
+import @jalvin/ui.Column
+import @jalvin/ui.Text
+import @jalvin/ui.Modifier
+import @jalvin/ui.TextStyle
+import src.models.WeddingData.COUPLE_NAMES
+import src.models.WeddingData.WEDDING_DATE
+import src.models.WeddingData.VENUE_NAME
+import src.constants.strings.Res
+
+component fun WeddingFooter() {
+    return Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .marginTop(48)
+            .padding("48px 24px 64px 24px")
+            .border("none")
+            .background("transparent")
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().maxWidth(700).margin("0 auto"),
+            spacing = 14,
+            horizontalAlignment = "center"
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(80)
+                    .height("1px")
+                    .background("#d8c7b5")
+                    .marginBottom(10)
+            ) {}
+
+            Text(
+                text = "N  ✦  C",
+                style = TextStyle.titleMedium,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .letterSpacing("0.35em")
+                    .textAlign("center"),
+                color = "#9c7e62"
+            )
+
+            Text(
+                text = COUPLE_NAMES,
+                style = TextStyle.headlineSmall,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .letterSpacing("0.04em")
+                    .textAlign("center"),
+                color = "#362a22"
+            )
+
+            Text(
+                text = "${WEDDING_DATE}  •  ${VENUE_NAME}  •  Santa Cruz, California",
+                style = TextStyle.bodyMedium,
+                modifier = Modifier.Default
+                    .fontFamily("'Montserrat', -apple-system, sans-serif")
+                    .letterSpacing("0.12em")
+                    .fontSize(12)
+                    .textAlign("center"),
+                color = "#8f7c6e"
+            )
+
+            Text(
+                text = Res.FOOTER_NOTE,
+                style = TextStyle.bodyMedium,
+                modifier = Modifier.Default
+                    .fontFamily("'Cormorant Garamond', Georgia, serif")
+                    .letterSpacing("0.02em")
+                    .textAlign("center")
+                    .marginTop(4),
+                color = "#6e5d50"
+            )
+        }
+    }
+}
